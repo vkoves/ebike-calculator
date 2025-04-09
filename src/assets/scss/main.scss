@@ -31,6 +31,18 @@ footer {
   font-size: 0.9rem;
   background-color: vars.$bg-footer;
   border-top: 1px solid vars.$border-light;
+  
+  a {
+    color: vars.$primary;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+    
+    &:hover {
+      color: vars.$primary-dark;
+      text-decoration: underline;
+    }
+  }
 }
 
 h1 {
