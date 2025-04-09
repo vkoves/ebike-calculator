@@ -152,7 +152,16 @@
         </div>
         
         <div class="total-comparison">
-          <p>Even if you spend <strong>$1,000/year</strong> on occasional rentals and ride-shares, that's still <strong>${{ Math.round((carTotalCost.value - bikeTotalCost.value - 5000) / 1000) * 1000 }}</strong> less than the 5-year cost of car ownership!</p>
+          <p v-if="adjustedSavings > 0">
+            Even if you spend <strong>$1,000/year</strong> on occasional rentals and ride-shares, that's still 
+            <span class="highlight-amount"><strong>{{ formatCurrency(adjustedSavings) }}</strong></span> 
+            less than the 5-year cost of car ownership!
+          </p>
+          <p v-else>
+            When you factor in <strong>$1,000/year</strong> for occasional rentals and ride-shares, you're still 
+            <span class="highlight-amount"><strong>coming out ahead</strong></span> 
+            compared to full car ownership, while gaining health benefits and reducing environmental impact!
+          </p>
         </div>
       </div>
     </div>
@@ -246,6 +255,18 @@ const carTotalCost = computed(() => {
 
 const savingsAmount = computed(() => {
   return carTotalCost.value - bikeTotalCost.value;
+});
+
+// Calculate savings after accounting for alternative transportation costs
+const adjustedSavings = computed(() => {
+  // Assume $1000/year for alternative transportation (5 years total)
+  const alternativeTransportCost = 5000; 
+  // Calculate savings after alternative costs
+  const netSavings = savingsAmount.value - alternativeTransportCost;
+  // Make sure the value is never negative
+  const positiveNetSavings = Math.max(0, netSavings);
+  // Round to nearest thousand for cleaner number
+  return Math.floor(positiveNetSavings / 1000) * 1000;
 });
 
 // Get the current recommendation type
@@ -682,22 +703,61 @@ function formatCurrency(value) {
 }
 
 .total-comparison {
-  background-color: #e8f5ee;
-  padding: 1.5rem;
+  background-color: #2c8a57;
+  padding: 1.75rem;
   border-radius: 10px;
   text-align: center;
   max-width: 800px;
   margin: 0 auto;
-  border: 1px dashed #2c8a57;
+  box-shadow: 0 4px 12px rgba(44, 138, 87, 0.3);
+  position: relative;
+  overflow: hidden;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 4px 12px rgba(44, 138, 87, 0.3);
+  }
+  50% {
+    box-shadow: 0 8px 24px rgba(44, 138, 87, 0.5);
+  }
+  100% {
+    box-shadow: 0 4px 12px rgba(44, 138, 87, 0.3);
+  }
 }
 
 .total-comparison p {
   margin-bottom: 0;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
+  color: white;
+  line-height: 1.6;
 }
 
 .total-comparison strong {
-  color: #27ae60;
+  color: #ffffff;
+  font-weight: 700;
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+}
+
+.highlight-amount {
+  display: block;
+  margin: 0.5rem 0;
+  font-size: 1.4rem;
+}
+
+.highlight-amount strong {
+  background-color: rgba(255, 255, 255, 0.25);
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  display: inline-block;
+  margin: 0.25rem 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 @media (max-width: 900px) {
@@ -761,11 +821,17 @@ function formatCurrency(value) {
   }
   
   .total-comparison {
-    padding: 1.25rem;
+    padding: 1.5rem 1rem;
+    margin-top: 1rem;
   }
   
   .total-comparison p {
-    font-size: 1rem;
+    font-size: 1.05rem;
+  }
+  
+  .total-comparison strong {
+    display: inline-block;
+    margin: 0.25rem 0;
   }
 }
 </style>
