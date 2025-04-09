@@ -37,7 +37,7 @@
     <!-- Calculator Section -->
     <div class="calculator-section" id="calculator">
       <div class="container">
-        <main>
+        <main v-if="!showAssessment">
           <section class="intro">
             <p>Welcome to our site dedicated to helping you discover the benefits of cycling.</p>
             <p>We'll ask about your transportation needs and help you see if a bike could help replace some car trips and save money.</p>
@@ -52,17 +52,28 @@
             </ul>
           </section>
           <div class="cta">
-            <button>Start Your Assessment</button>
+            <button @click="startAssessment">Start Your Assessment</button>
           </div>
         </main>
+        
+        <BikeAssessment v-if="showAssessment" />
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue';
+import BikeAssessment from './BikeAssessment.vue';
+
+const showAssessment = ref(false);
+
 function scrollToCalculator() {
   document.getElementById('calculator').scrollIntoView({ behavior: 'smooth' });
+}
+
+function startAssessment() {
+  showAssessment.value = true;
 }
 </script>
 
