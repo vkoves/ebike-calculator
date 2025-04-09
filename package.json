@@ -1,0 +1,27 @@
+{
+  "name": "ebike-calculator",
+  "version": "1.0.0",
+  "description": "A tool to help evaluate if a bike could replace some car trips and save money",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vkoves/ebike-calculator.git"
+  },
+  "keywords": ["bike", "calculator", "transportation"],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vkoves/ebike-calculator/issues"
+  },
+  "homepage": "https://github.com/vkoves/ebike-calculator#readme",
+  "dependencies": {
+    "@vitejs/plugin-vue": "^5.2.3",
+    "vite": "^6.2.5",
+    "vue": "^3.5.13"
+  }
+}
