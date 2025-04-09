@@ -229,11 +229,8 @@ const isComparing = computed(() => comparisonBike.value !== '');
 
 // Watch for changes in the selected bike type from parent
 watch(() => props.selectedBikeType, (newType, oldType) => {
-  console.log('Selected bike type from parent changed to:', newType);
-  
   // Reset the comparison dropdown if the recommendation changes
   if (oldType && newType !== oldType && comparisonBike.value) {
-    console.log('Recommendation changed, resetting comparison');
     comparisonBike.value = '';
   }
 }, { immediate: true });
@@ -303,12 +300,6 @@ function handleComparisonChange() {
   // Store the selected value in case it gets reset
   const selectedValue = comparisonBike.value;
   
-  // Log the change for debugging
-  if (selectedValue) {
-    console.log('Comparing with bike type:', selectedValue);
-  } else {
-    console.log('Reverted to original recommendation');
-  }
   
   // Emit the bike change event to the parent component
   emit('bike-change', selectedValue);
@@ -316,7 +307,6 @@ function handleComparisonChange() {
   // Ensure the selection is maintained (in case it gets reset by reactivity)
   setTimeout(() => {
     if (comparisonBike.value !== selectedValue) {
-      console.log('Selection was reset, restoring to:', selectedValue);
       comparisonBike.value = selectedValue;
     }
   }, 0);

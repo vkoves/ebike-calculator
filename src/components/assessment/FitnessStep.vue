@@ -62,8 +62,6 @@ function updateFitnessLevel(level) {
   // Emit the update event with the new level
   emit('update:modelValue', level);
   
-  // For debugging
-  console.log('Updated fitness level:', level);
 }
 </script>
 

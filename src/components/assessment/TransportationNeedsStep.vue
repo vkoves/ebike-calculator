@@ -92,8 +92,6 @@ function toggleNeed(need) {
   // Emit the update event with the new object
   emit('update:modelValue', updatedNeeds);
 
-  // For debugging
-  console.log('Updated transportationNeeds:', updatedNeeds);
 }
 </script>
 

@@ -2,12 +2,12 @@
   <div class="page-container">
     <h1>Find Your Perfect Bike</h1>
     <p class="page-intro">Answer a few questions about your needs, and we'll recommend the right bike type for you.</p>
-    
+
     <div class="assessment-container">
       <div class="progress-bar">
         <div class="progress" :style="{ width: progressPercent + '%' }"></div>
       </div>
-      
+
       <transition name="fade" mode="out-in">
         <!-- Step 1: Transportation Needs -->
         <transportation-needs-step
@@ -16,7 +16,7 @@
           v-model="transportationNeeds"
           @next="nextStep"
         />
-        
+
         <!-- Step 2: Geography -->
         <geography-step
           v-else-if="currentStep === 2"
@@ -25,7 +25,7 @@
           @prev="prevStep"
           @next="nextStep"
         />
-        
+
         <!-- Step 3: Fitness Level -->
         <fitness-step
           v-else-if="currentStep === 3"
@@ -34,17 +34,17 @@
           @prev="prevStep"
           @calculate="calculateRecommendation"
         />
-        
+
         <!-- Step 4: Results -->
         <div v-else-if="currentStep === 4" key="step4" class="step-container results-container">
           <h2>Your Recommended Bike Type</h2>
-          
-          <bike-recommendation 
+
+          <bike-recommendation
             :recommendation-details="recommendationDetails"
             :all-bike-types="bikeTypeDetails"
             @bike-change="handleBikeChange"
           />
-          
+
           <savings-comparison
             :bike-title="recommendationDetails.title"
             :bike-image="recommendationDetails.image"
@@ -54,7 +54,7 @@
             @bike-change="handleBikeChange"
             key="savings-component"
           />
-          
+
           <results-footer @restart="restartAssessment" />
         </div>
       </transition>
@@ -89,18 +89,9 @@ const geography = ref({
 
 const fitnessLevel = ref('medium');
 
-// Watch for changes to help debug
-watch(transportationNeeds, (newVal) => {
-  console.log('transportationNeeds changed:', newVal);
-}, { deep: true });
-
-watch(geography, (newVal) => {
-  console.log('geography changed:', newVal);
-}, { deep: true });
-
-watch(fitnessLevel, (newVal) => {
-  console.log('fitnessLevel changed:', newVal);
-});
+// Watch for reactive state changes
+watch(transportationNeeds, () => {}, { deep: true });
+watch(geography, () => {}, { deep: true });
 const recommendation = ref('');
 const recommendationDetails = ref({});
 
@@ -191,8 +182,8 @@ const progressPercent = computed(() => {
 
 const needsAssistance = computed(() => {
   // Determine if the user needs electric assistance
-  return geography.value.windy || 
-         geography.value.hilly || 
+  return geography.value.windy ||
+         geography.value.hilly ||
          fitnessLevel.value === 'low' ||
          transportationNeeds.value.cargo ||
          transportationNeeds.value.transportingKids ||
@@ -200,8 +191,8 @@ const needsAssistance = computed(() => {
 });
 
 const needsCargo = computed(() => {
-  return transportationNeeds.value.cargo || 
-         transportationNeeds.value.transportingKids || 
+  return transportationNeeds.value.cargo ||
+         transportationNeeds.value.transportingKids ||
          transportationNeeds.value.transportingAdults;
 });
 
@@ -236,15 +227,14 @@ function calculateRecommendation() {
       recommendation.value = 'regular-bike';
     }
   }
-  
-  console.log('Calculated recommendation:', recommendation.value);
+
 
   // Set recommendation details
   setRecommendationDetails();
-  
+
   // Update purchase cost based on the recommendation
   updateBikeCosts(recommendation.value);
-  
+
   // Move to results page
   nextStep();
 }
@@ -252,7 +242,7 @@ function calculateRecommendation() {
 function updateBikeCosts(bikeType = null) {
   // Use the passed bike type or the current recommendation
   const typeToUse = bikeType || recommendation.value;
-  
+
   // Set bike purchase cost based on bike type
   switch(typeToUse) {
     case 'regular-bike':
@@ -291,8 +281,7 @@ function updateBikeCosts(bikeType = null) {
       costs.bike.fuel = 0;
       costs.bike.insurance = 0;
   }
-  
-  console.log(`Updated costs for bike type: ${typeToUse}`, costs.bike);
+
 }
 
 function setRecommendationDetails() {
@@ -301,25 +290,23 @@ function setRecommendationDetails() {
 
 // Handle bike change from the dropdown
 function handleBikeChange(bikeType) {
-  console.log('BikeAssessment received bike change:', bikeType);
-  
+
   if (!bikeType) {
     // Restore original bike costs and details for the recommended bike
     updateBikeCosts(recommendation.value);
     recommendationDetails.value = bikeTypeDetails[recommendation.value];
     return;
   }
-  
+
   // Update costs and details based on selected bike type
   updateBikeCosts(bikeType);
   recommendationDetails.value = {...bikeTypeDetails[bikeType]};
-  console.log('Updated bike details to:', bikeType, recommendationDetails.value);
 }
 
 function restartAssessment() {
   // Reset all values
   currentStep.value = 1;
-  
+
   // Reset transportationNeeds
   transportationNeeds.value = {
     soloCommuting: false,
@@ -327,21 +314,16 @@ function restartAssessment() {
     transportingKids: false,
     transportingAdults: false
   };
-  
+
   // Reset geography
   geography.value = {
     windy: false,
     hilly: false
   };
-  
+
   fitnessLevel.value = 'medium';
   recommendation.value = '';
-  
-  console.log('Assessment restarted', { 
-    transportationNeeds: transportationNeeds.value,
-    geography: geography.value,
-    fitnessLevel: fitnessLevel.value
-  });
+
 }
 </script>
 

@@ -63,8 +63,6 @@ function toggleGeography(type) {
   // Emit the update event with the new object
   emit('update:modelValue', updatedGeography);
   
-  // For debugging
-  console.log('Updated geography:', updatedGeography);
 }
 
 function setFlatGeography() {
@@ -73,8 +71,6 @@ function setFlatGeography() {
   // Emit the update event with the new object
   emit('update:modelValue', flatGeography);
   
-  // For debugging
-  console.log('Updated to flat geography:', flatGeography);
 }
 </script>
 
