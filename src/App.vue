@@ -1,7 +1,9 @@
 <template>
   <div class="app-wrapper">
     <Header />
-    <router-view />
+    <main class="main-content">
+      <router-view />
+    </main>
     <footer>
       <p>© 2025 - EBike Calculator</p>
     </footer>
@@ -32,13 +34,12 @@ body {
   min-height: 100vh;
 }
 
-router-view {
+.main-content {
   flex: 1;
 }
 
 footer {
   text-align: center;
-  margin-top: 2rem;
   padding: 1.5rem;
   color: #666;
   font-size: 0.9rem;
