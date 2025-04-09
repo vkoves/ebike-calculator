@@ -30,20 +30,48 @@
       <div class="bike-showcase">
         <div class="carousel-3d-container">
           <div class="carousel-3d" :style="{ transform: 'rotateY(' + currentRotation + 'deg)' }">
-            <div class="carousel-item" :style="{ transform: 'rotateY(0deg) translateZ(250px)' }">
-              <img src="/images/bikes/dutch-bike.jpg" alt="City Bike">
+            <div 
+              class="carousel-item" 
+              :class="{ 'active': carouselIndex === 0 }"
+              :style="{ transform: 'rotateY(0deg) translateZ(250px)' }"
+            >
+              <div class="image-container">
+                <img src="/images/bikes/dutch-bike.jpg" alt="City Bike">
+                <div class="overlay"></div>
+              </div>
               <div class="caption">City Commuter</div>
             </div>
-            <div class="carousel-item" :style="{ transform: 'rotateY(90deg) translateZ(250px)' }">
-              <img src="/images/bikes/gazelle-ebike.jpg" alt="Electric Bike">
+            <div 
+              class="carousel-item" 
+              :class="{ 'active': carouselIndex === 1 }"
+              :style="{ transform: 'rotateY(90deg) translateZ(250px)' }"
+            >
+              <div class="image-container">
+                <img src="/images/bikes/gazelle-ebike.jpg" alt="Electric Bike">
+                <div class="overlay"></div>
+              </div>
               <div class="caption">Electric Power</div>
             </div>
-            <div class="carousel-item" :style="{ transform: 'rotateY(180deg) translateZ(250px)' }">
-              <img src="/images/bikes/tern-gsd-500.jpg" alt="Cargo Bike">
+            <div 
+              class="carousel-item" 
+              :class="{ 'active': carouselIndex === 2 }"
+              :style="{ transform: 'rotateY(180deg) translateZ(250px)' }"
+            >
+              <div class="image-container">
+                <img src="/images/bikes/tern-gsd-500.jpg" alt="Cargo Bike">
+                <div class="overlay"></div>
+              </div>
               <div class="caption">Cargo Carrier</div>
             </div>
-            <div class="carousel-item" :style="{ transform: 'rotateY(270deg) translateZ(250px)' }">
-              <img src="/images/bikes/urban-arrow.jpg" alt="Family Bike">
+            <div 
+              class="carousel-item" 
+              :class="{ 'active': carouselIndex === 3 }"
+              :style="{ transform: 'rotateY(270deg) translateZ(250px)' }"
+            >
+              <div class="image-container">
+                <img src="/images/bikes/urban-arrow.jpg" alt="Family Bike">
+                <div class="overlay"></div>
+              </div>
               <div class="caption">Family Transport</div>
             </div>
           </div>
@@ -244,25 +272,60 @@ h1 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  transition: all 0.5s ease;
+  z-index: 1;
   
-  img {
+  .image-container {
+    position: relative;
     max-width: 90%;
     max-height: 90%;
+    margin-bottom: 1rem;
+  }
+  
+  img {
+    width: 100%;
     object-fit: contain;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     background-color: vars.$white;
     padding: 10px;
-    transition: transform 0.3s ease;
+    transition: all 0.5s ease;
+    filter: blur(2px) brightness(0.7);
+    transform: scale(0.95);
+  }
+  
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    transition: opacity 0.5s ease;
+    opacity: 1;
+    pointer-events: none;
+  }
+  
+  &.active {
+    z-index: 5;
     
-    &:hover {
-      transform: scale(1.05);
+    img {
+      filter: blur(0) brightness(1);
+      transform: scale(1);
+      
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+    
+    .overlay {
+      opacity: 0;
     }
   }
 }
 
 .caption {
-  margin-top: 1rem;
   font-weight: 600;
   color: vars.$dark;
   font-size: 1.2rem;
@@ -270,6 +333,16 @@ h1 {
   background-color: vars.$bg-caption;
   padding: 0.4rem 1rem;
   border-radius: vars.$border-radius-lg;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  opacity: 0.7;
+  transform: translateY(-5px);
+  position: relative;
+  z-index: 2;
+  
+  .active & {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .carousel-controls {
