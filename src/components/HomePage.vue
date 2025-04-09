@@ -1,224 +1,359 @@
 <template>
   <div class="home-page">
-    <!-- Landing Section with Bike Cards -->
-    <div class="landing-container">
-      <h1>Discover Your Perfect Ride</h1>
-      <p class="subtitle">Find out if cycling could replace some of your car trips, improve your health, and save you money.</p>
-      
-      <div class="bikes-showcase">
-        <div class="bike-card">
-          <img src="/images/bikes/dutch-bike.jpg" alt="City Bike" class="bike-image">
-          <div class="bike-info">
-            <h3 class="bike-title">City Commuter</h3>
-            <p class="bike-description">Perfect for urban commuting with comfort and style. Navigate through city streets with ease.</p>
+    <div class="hero-container">
+      <div class="hero-content">
+        <h1>Discover Your Perfect Ride</h1>
+        <p class="subtitle">Find out if cycling could replace some of your car trips, improve your health, and save you money.</p>
+        
+        <div class="benefits-summary">
+          <div class="benefit-item">
+            <div class="benefit-icon">💰</div>
+            <div>Save money</div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-icon">🌍</div>
+            <div>Reduce emissions</div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-icon">❤️</div>
+            <div>Improve health</div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-icon">⏱️</div>
+            <div>Save time</div>
           </div>
         </div>
         
-        <div class="bike-card">
-          <img src="/images/bikes/gazelle-ebike.jpg" alt="Electric Bike" class="bike-image">
-          <div class="bike-info">
-            <h3 class="bike-title">Electric Power</h3>
-            <p class="bike-description">Effortless rides with electric assistance. Go further, faster, with less effort.</p>
-          </div>
-        </div>
-        
-        <div class="bike-card">
-          <img src="/images/bikes/tern-gsd-500.jpg" alt="Cargo Bike" class="bike-image">
-          <div class="bike-info">
-            <h3 class="bike-title">Cargo Carrier</h3>
-            <p class="bike-description">Haul groceries, kids, or supplies. The SUV of bicycles for practical everyday use.</p>
-          </div>
-        </div>
+        <button class="cta-button" @click="startAssessment">Find Your Perfect Bike</button>
       </div>
       
-      <button class="cta-button" @click="scrollToCalculator">Calculate Your Savings</button>
-    </div>
-
-    <!-- Calculator Section -->
-    <div class="calculator-section" id="calculator">
-      <div class="container">
-        <main v-if="!showAssessment">
-          <section class="intro">
-            <p>Welcome to our site dedicated to helping you discover the benefits of cycling.</p>
-            <p>We'll ask about your transportation needs and help you see if a bike could help replace some car trips and save money.</p>
-          </section>
-          <section class="benefits">
-            <h2>Benefits of choosing a bike:</h2>
-            <ul>
-              <li>Save money on fuel, parking, and vehicle maintenance</li>
-              <li>Improve your physical and mental health</li>
-              <li>Reduce your environmental impact</li>
-              <li>Avoid traffic congestion</li>
-            </ul>
-          </section>
-          <div class="cta">
-            <button @click="startAssessment">Start Your Assessment</button>
+      <div class="bike-showcase">
+        <div class="carousel-3d-container">
+          <div class="carousel-3d" :style="{ transform: 'rotateY(' + currentRotation + 'deg)' }">
+            <div class="carousel-item" :style="{ transform: 'rotateY(0deg) translateZ(250px)' }">
+              <img src="/images/bikes/dutch-bike.jpg" alt="City Bike">
+              <div class="caption">City Commuter</div>
+            </div>
+            <div class="carousel-item" :style="{ transform: 'rotateY(90deg) translateZ(250px)' }">
+              <img src="/images/bikes/gazelle-ebike.jpg" alt="Electric Bike">
+              <div class="caption">Electric Power</div>
+            </div>
+            <div class="carousel-item" :style="{ transform: 'rotateY(180deg) translateZ(250px)' }">
+              <img src="/images/bikes/tern-gsd-500.jpg" alt="Cargo Bike">
+              <div class="caption">Cargo Carrier</div>
+            </div>
+            <div class="carousel-item" :style="{ transform: 'rotateY(270deg) translateZ(250px)' }">
+              <img src="/images/bikes/urban-arrow.jpg" alt="Family Bike">
+              <div class="caption">Family Transport</div>
+            </div>
           </div>
-        </main>
+        </div>
         
-        <BikeAssessment v-if="showAssessment" />
+        <div class="carousel-controls">
+          <button class="control-btn prev" @click="rotateCarousel('prev')" aria-label="Previous bike">
+            &#10094;
+          </button>
+          <button class="control-btn next" @click="rotateCarousel('next')" aria-label="Next bike">
+            &#10095;
+          </button>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import BikeAssessment from './BikeAssessment.vue';
+import { ref, onMounted, onUnmounted } from 'vue';
+import { useRouter } from 'vue-router';
 
-const showAssessment = ref(false);
-
-function scrollToCalculator() {
-  document.getElementById('calculator').scrollIntoView({ behavior: 'smooth' });
-}
+const router = useRouter();
+const currentRotation = ref(0);
+const carouselIndex = ref(0);
+const autoRotateInterval = ref(null);
 
 function startAssessment() {
-  showAssessment.value = true;
+  router.push('/assessment');
 }
+
+function rotateCarousel(direction) {
+  // Stop auto-rotation temporarily when user manually rotates
+  if (autoRotateInterval.value) {
+    clearInterval(autoRotateInterval.value);
+    startAutoRotation(); // Restart the auto-rotation
+  }
+  
+  if (direction === 'next') {
+    carouselIndex.value = (carouselIndex.value + 1) % 4;
+  } else {
+    carouselIndex.value = (carouselIndex.value - 1 + 4) % 4;
+  }
+  
+  // Calculate the rotation angle
+  currentRotation.value = -90 * carouselIndex.value;
+}
+
+function startAutoRotation() {
+  autoRotateInterval.value = setInterval(() => {
+    carouselIndex.value = (carouselIndex.value + 1) % 4;
+    currentRotation.value = -90 * carouselIndex.value;
+  }, 5000);
+}
+
+onMounted(() => {
+  startAutoRotation();
+});
+
+onUnmounted(() => {
+  if (autoRotateInterval.value) {
+    clearInterval(autoRotateInterval.value);
+  }
+});
 </script>
 
 <style scoped>
-/* Landing Styles */
-.landing-container {
+.home-page {
+  height: calc(100vh - 60px); /* Adjust based on header height */
+  overflow: hidden;
+}
+
+.hero-container {
+  height: 100%;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  min-height: 90vh;
-  padding: 2rem;
-  text-align: center;
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
 }
 
-.landing-container h1 {
+.hero-content {
+  flex: 1;
+  padding: 2rem 4rem;
+  max-width: 600px;
+}
+
+h1 {
   color: #2c3e50;
   font-size: 2.5rem;
   margin-bottom: 1rem;
+  line-height: 1.2;
 }
 
 .subtitle {
   color: #34495e;
   font-size: 1.25rem;
   margin-bottom: 2rem;
-  max-width: 600px;
 }
 
-.bikes-showcase {
+.benefits-summary {
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
-  gap: 2rem;
+  gap: 0.75rem;
   margin-bottom: 2rem;
-  max-width: 1200px;
 }
 
-.bike-card {
-  background: white;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-  width: 300px;
-  transition: transform 0.3s ease;
-}
-
-.bike-card:hover {
-  transform: translateY(-5px);
-}
-
-.bike-image {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-}
-
-.bike-info {
-  padding: 1.5rem;
-}
-
-.bike-title {
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-  color: #2c3e50;
-}
-
-.bike-description {
-  color: #7f8c8d;
+.benefit-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.6);
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
   font-size: 0.9rem;
+}
+
+.benefit-icon {
+  font-size: 1.2rem;
 }
 
 .cta-button {
   background: #3498db;
   color: white;
   border: none;
-  padding: 0.8rem 2rem;
-  font-size: 1rem;
+  padding: 1rem 2.5rem;
+  font-size: 1.1rem;
   font-weight: 600;
   border-radius: 30px;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
 }
 
 .cta-button:hover {
   background: #2980b9;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(52, 152, 219, 0.4);
 }
 
-/* Calculator Section Styles */
-.calculator-section {
-  padding: 4rem 0;
+/* 3D Carousel Styles */
+.bike-showcase {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  perspective: 1000px;
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
+.carousel-3d-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-style: preserve-3d;
 }
 
-.intro {
-  text-align: center;
+.carousel-3d {
+  position: relative;
+  width: 300px;
+  height: 350px;
+  transform-style: preserve-3d;
+  transition: transform 1s ease;
+}
+
+.carousel-item {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: visible;
+  transform-origin: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-item img {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  background-color: white;
+  padding: 10px;
+  transition: transform 0.3s ease;
+}
+
+.carousel-item img:hover {
+  transform: scale(1.05);
+}
+
+.caption {
+  margin-top: 1rem;
+  font-weight: 600;
+  color: #2c3e50;
   font-size: 1.2rem;
-  margin-bottom: 2rem;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
+  text-shadow: 0 1px 3px rgba(255,255,255,0.8);
+  background-color: rgba(255,255,255,0.7);
+  padding: 0.4rem 1rem;
+  border-radius: 30px;
 }
 
-.intro p {
-  margin-bottom: 1rem;
+.carousel-controls {
+  position: absolute;
+  bottom: 50%;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 2rem;
+  transform: translateY(50%);
+  z-index: 10;
 }
 
-.benefits {
-  background-color: #e9f7ef;
-  padding: 2rem;
-  border-radius: 8px;
-  margin-bottom: 2rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+.control-btn {
+  background-color: #f0f0f0;
+  color: #333;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  font-weight: bold;
 }
 
-ul {
-  list-style-position: inside;
-  margin-left: 1rem;
+.control-btn:hover {
+  background-color: #e0e0e0;
+  color: #222;
+  transform: scale(1.1);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
 }
 
-li {
-  margin-bottom: 0.5rem;
+.control-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(200, 200, 200, 0.5), 0 4px 8px rgba(0,0,0,0.15);
 }
 
-.cta {
-  text-align: center;
-  margin: 2rem 0;
+@media (max-width: 1024px) {
+  .hero-container {
+    flex-direction: column;
+  }
+  
+  .hero-content {
+    max-width: 100%;
+    padding: 2rem;
+    text-align: center;
+    flex: 0 0 auto;
+  }
+  
+  .benefits-summary {
+    justify-content: center;
+  }
+  
+  .bike-showcase {
+    width: 100%;
+    height: 400px;
+    margin-bottom: 2rem;
+  }
+  
+  .carousel-controls {
+    bottom: 50%;
+    transform: translateY(50%);
+  }
 }
 
 @media (max-width: 768px) {
-  .landing-container h1 {
+  h1 {
     font-size: 2rem;
   }
-  .bikes-showcase {
-    flex-direction: column;
-    align-items: center;
+  
+  .subtitle {
+    font-size: 1rem;
   }
-  .bike-card {
-    width: 100%;
-    max-width: 300px;
+  
+  .cta-button {
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+  }
+  
+  .benefit-item {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+  
+  .bike-showcase {
+    height: 300px;
+  }
+  
+  .carousel-3d {
+    width: 200px;
+    height: 250px;
+  }
+  
+  .control-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+  
+  .carousel-controls {
+    padding: 0 1rem;
   }
 }
 </style>

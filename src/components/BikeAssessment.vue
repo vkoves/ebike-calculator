@@ -1,5 +1,9 @@
 <template>
-  <div class="assessment-container">
+  <div class="page-container">
+    <h1>Find Your Perfect Bike</h1>
+    <p class="page-intro">Answer a few questions about your needs, and we'll recommend the right bike type for you.</p>
+    
+    <div class="assessment-container">
     <div class="progress-bar">
       <div class="progress" :style="{ width: progressPercent + '%' }"></div>
     </div>
@@ -177,6 +181,7 @@
         </div>
       </div>
     </transition>
+    </div>
   </div>
 </template>
 
@@ -363,6 +368,26 @@ function restartAssessment() {
 </script>
 
 <style scoped>
+.page-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.page-intro {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 2.5rem auto;
+  font-size: 1.2rem;
+  color: #555;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #2c8a57;
+}
+
 .assessment-container {
   max-width: 900px;
   margin: 0 auto;
