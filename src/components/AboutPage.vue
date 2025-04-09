@@ -1,12 +1,12 @@
 <template>
   <div class="about-container">
     <h1>About EBike Calculator</h1>
-    
+
     <section class="about-section">
       <h2>Our Mission</h2>
       <p>At EBike Calculator, we're passionate about helping people discover the benefits of cycling as a sustainable, healthy, and cost-effective transportation alternative. Our mission is to provide tools and information that make it easy for anyone to evaluate whether a bicycle could replace some or all of their car trips.</p>
     </section>
-    
+
     <section class="about-section">
       <h2>Why Cycling?</h2>
       <div class="benefits-grid">
@@ -28,7 +28,7 @@
         </div>
       </div>
     </section>
-    
+
     <section class="about-section">
       <h2>Types of Bikes We Consider</h2>
       <div class="bike-types">
@@ -46,7 +46,7 @@
         </div>
       </div>
     </section>
-    
+
     <section class="about-section">
       <h2>How Our Calculator Works</h2>
       <p>Our calculator takes into account your specific transportation needs, local conditions, and personal preferences to help you understand:</p>
@@ -58,15 +58,18 @@
         <li>Health benefits you might experience</li>
       </ul>
     </section>
-    
+
     <section class="about-section contact">
       <h2>Contact Us</h2>
-      <p>Have questions or feedback? We'd love to hear from you! Reach out to us at <a href="mailto:info@ebike-calculator.com">info@ebike-calculator.com</a>.</p>
+      <p>Have questions or feedback? We'd love to hear from you! <a href="https://github.com/vkoves/ebike-calculator/issues" target="_blank" rel="noopener noreferrer">Create an issue on GitHub</a>.</p>
     </section>
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
+@use 'sass:color';
+@use '../assets/scss/variables' as vars;
+
 .about-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -74,7 +77,7 @@
 }
 
 h1 {
-  color: #2c8a57;
+  color: vars.$primary;
   text-align: center;
   margin-bottom: 2rem;
 }
@@ -84,9 +87,9 @@ h1 {
 }
 
 h2 {
-  color: #2c8a57;
+  color: vars.$primary;
   margin-bottom: 1rem;
-  border-bottom: 2px solid #e9f7ef;
+  border-bottom: 2px solid vars.$bg-bike-type;
   padding-bottom: 0.5rem;
 }
 
@@ -98,15 +101,15 @@ h2 {
 }
 
 .benefit-card {
-  background-color: #f9f9f9;
+  background-color: vars.$bg-body;
   border-radius: 8px;
   padding: 1.5rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
-.benefit-card h3 {
-  color: #2c8a57;
-  margin-bottom: 0.75rem;
+  h3 {
+    color: vars.$primary;
+    margin-bottom: 0.75rem;
+  }
 }
 
 .bike-types {
@@ -117,14 +120,14 @@ h2 {
 }
 
 .bike-type {
-  background-color: #e9f7ef;
+  background-color: vars.$bg-bike-type;
   border-radius: 8px;
   padding: 1.5rem;
-}
 
-.bike-type h3 {
-  color: #2c8a57;
-  margin-bottom: 0.75rem;
+  h3 {
+    color: vars.$primary;
+    margin-bottom: 0.75rem;
+  }
 }
 
 ul {
@@ -139,19 +142,19 @@ li {
 
 .contact {
   text-align: center;
-  background-color: #f9f9f9;
+  background-color: vars.$bg-body;
   padding: 2rem;
   border-radius: 8px;
-}
 
-.contact a {
-  color: #2c8a57;
-  text-decoration: none;
-  font-weight: 500;
-}
+  a {
+    color: vars.$primary;
+    text-decoration: none;
+    font-weight: 500;
 
-.contact a:hover {
-  text-decoration: underline;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 
 @media (max-width: 768px) {

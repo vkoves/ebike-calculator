@@ -1,0 +1,176 @@
+@use 'sass:color';
+@use './variables' as vars;
+
+/* Common Styles for Assessment Components */
+
+.step-container {
+  margin-bottom: vars.$spacing-xl;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: vars.$spacing-sm;
+  color: vars.$dark;
+}
+
+.subtitle {
+  text-align: center;
+  color: vars.$gray;
+  margin-bottom: vars.$spacing-xl;
+}
+
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: vars.$spacing-lg;
+  margin-bottom: vars.$spacing-xl;
+}
+
+.option-card {
+  background-color: vars.$lightest-gray;
+  border: 2px solid vars.$lighter-gray;
+  border-radius: vars.$border-radius;
+  padding: vars.$spacing-lg;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Button reset styles */
+  appearance: none;
+  font: inherit;
+  color: inherit;
+  width: 100%;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: vars.$shadow-sm;
+  }
+  
+  &:focus {
+    outline: none;
+    border-color: vars.$secondary;
+    box-shadow: vars.$shadow-focus;
+  }
+  
+  &.selected {
+    border-color: vars.$primary;
+    background-color: rgba(44, 138, 87, 0.05);
+    
+    &::before {
+      content: "✓";
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 24px;
+      height: 24px;
+      background-color: vars.$primary;
+      color: vars.$white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 14px;
+    }
+  }
+}
+
+.option-icon {
+  font-size: 2rem;
+  margin-bottom: vars.$spacing-md;
+}
+
+.option-label {
+  font-weight: 600;
+  color: vars.$dark;
+}
+
+.option-description {
+  margin-top: vars.$spacing-sm;
+  font-size: 0.9rem;
+  color: vars.$gray;
+}
+
+.fitness-card {
+  padding: vars.$spacing-xl vars.$spacing-lg;
+}
+
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: vars.$spacing-xl;
+}
+
+%btn-base {
+  padding: 0.75rem vars.$spacing-lg;
+  border-radius: vars.$border-radius-lg;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  border: none;
+}
+
+.btn-prev {
+  @extend %btn-base;
+  background-color: vars.$lighter-gray;
+  color: vars.$light-gray;
+  
+  &:hover {
+    background-color: color.adjust(vars.$lighter-gray, $lightness: -5%);
+  }
+}
+
+.btn-next {
+  @extend %btn-base;
+  background-color: vars.$primary;
+  color: vars.$white;
+  margin-left: auto;
+  
+  &:hover {
+    background-color: vars.$primary-dark;
+  }
+  
+  &:disabled {
+    background-color: color.adjust(vars.$primary, $lightness: 25%);
+    cursor: not-allowed;
+  }
+}
+
+.btn-restart {
+  @extend %btn-base;
+  background-color: vars.$lighter-gray;
+  color: vars.$light-gray;
+  
+  &:hover {
+    background-color: color.adjust(vars.$lighter-gray, $lightness: -5%);
+  }
+}
+
+.btn-details {
+  @extend %btn-base;
+  background-color: vars.$secondary;
+  color: vars.$white;
+  
+  &:hover {
+    background-color: vars.$secondary-dark;
+  }
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
+  .options-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .navigation-buttons {
+    flex-direction: column;
+    gap: vars.$spacing-md;
+  }
+  
+  .btn-prev, .btn-next, .btn-restart, .btn-details {
+    width: 100%;
+  }
+}

@@ -15,12 +15,15 @@
   </header>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
+@use 'sass:color';
+@use '../assets/scss/variables' as vars;
+
 .site-header {
-  background-color: #2c8a57;
-  color: white;
+  background-color: vars.$primary;
+  color: vars.$white;
   padding: 1rem 0;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -36,37 +39,39 @@
 }
 
 .logo a {
-  color: white;
+  color: vars.$white;
   font-size: 1.5rem;
   font-weight: 700;
   text-decoration: none;
 }
 
-nav ul {
-  display: flex;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-nav li {
-  margin-left: 2rem;
-}
-
-nav a {
-  color: white;
-  text-decoration: none;
-  font-weight: 500;
-  transition: opacity 0.3s;
-}
-
-nav a:hover {
-  opacity: 0.8;
-}
-
-nav a.router-link-active {
-  font-weight: 700;
-  border-bottom: 2px solid white;
+nav {
+  ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  li {
+    margin-left: 2rem;
+  }
+  
+  a {
+    color: vars.$white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: opacity 0.3s;
+    
+    &:hover {
+      opacity: 0.8;
+    }
+    
+    &.router-link-active {
+      font-weight: 700;
+      border-bottom: 2px solid vars.$white;
+    }
+  }
 }
 
 @media (max-width: 768px) {
@@ -75,13 +80,15 @@ nav a.router-link-active {
     padding: 1rem;
   }
   
-  nav ul {
-    margin-top: 1rem;
-  }
-  
-  nav li {
-    margin-left: 1rem;
-    margin-right: 1rem;
+  nav {
+    ul {
+      margin-top: 1rem;
+    }
+    
+    li {
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
   }
 }
 </style>

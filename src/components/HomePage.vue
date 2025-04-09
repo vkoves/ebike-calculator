@@ -110,7 +110,10 @@ onUnmounted(() => {
 });
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@use 'sass:color';
+@use '../assets/scss/variables' as vars;
+
 .home-page {
   height: calc(100vh - 60px); /* Adjust based on header height */
   overflow: hidden;
@@ -120,7 +123,7 @@ onUnmounted(() => {
   height: 100%;
   display: flex;
   align-items: center;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: vars.$bg-hero;
 }
 
 .hero-content {
@@ -130,14 +133,14 @@ onUnmounted(() => {
 }
 
 h1 {
-  color: #2c3e50;
+  color: vars.$dark;
   font-size: 2.5rem;
   margin-bottom: 1rem;
   line-height: 1.2;
 }
 
 .subtitle {
-  color: #34495e;
+  color: vars.$dark;
   font-size: 1.25rem;
   margin-bottom: 2rem;
 }
@@ -153,10 +156,10 @@ h1 {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: vars.$bg-benefit;
   padding: 0.5rem 1rem;
   border-radius: 50px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   font-size: 0.9rem;
 }
 
@@ -165,13 +168,13 @@ h1 {
 }
 
 .cta-button {
-  background: #2c8a57;
-  color: white;
+  background: vars.$primary;
+  color: vars.$white;
   border: none;
   padding: 1.2rem 3rem;
   font-size: 1.3rem;
   font-weight: 700;
-  border-radius: 30px;
+  border-radius: vars.$border-radius-lg;
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 5px 15px rgba(44, 138, 87, 0.4);
@@ -179,28 +182,28 @@ h1 {
   overflow: hidden;
   z-index: 1;
   letter-spacing: 0.5px;
-}
-
-.cta-button:hover {
-  background: #236b45;
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(44, 138, 87, 0.5);
-}
-
-.cta-button:before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: 0.5s;
-  z-index: -1;
-}
-
-.cta-button:hover:before {
-  left: 100%;
+  
+  &:hover {
+    background: vars.$primary-dark;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(44, 138, 87, 0.5);
+  }
+  
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: 0.5s;
+    z-index: -1;
+  }
+  
+  &:hover:before {
+    left: 100%;
+  }
 }
 
 /* 3D Carousel Styles */
@@ -241,32 +244,32 @@ h1 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-}
-
-.carousel-item img {
-  max-width: 90%;
-  max-height: 90%;
-  object-fit: contain;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-  background-color: white;
-  padding: 10px;
-  transition: transform 0.3s ease;
-}
-
-.carousel-item img:hover {
-  transform: scale(1.05);
+  
+  img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    background-color: vars.$white;
+    padding: 10px;
+    transition: transform 0.3s ease;
+    
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
 }
 
 .caption {
   margin-top: 1rem;
   font-weight: 600;
-  color: #2c3e50;
+  color: vars.$dark;
   font-size: 1.2rem;
-  text-shadow: 0 1px 3px rgba(255,255,255,0.8);
-  background-color: rgba(255,255,255,0.7);
+  text-shadow: 0 1px 3px rgba(255, 255, 255, 0.8);
+  background-color: vars.$bg-caption;
   padding: 0.4rem 1rem;
-  border-radius: 30px;
+  border-radius: vars.$border-radius-lg;
 }
 
 .carousel-controls {
@@ -282,8 +285,8 @@ h1 {
 }
 
 .control-btn {
-  background-color: #f0f0f0;
-  color: #333;
+  background-color: vars.$bg-control;
+  color: vars.$text-body;
   border: none;
   border-radius: 50%;
   width: 50px;
@@ -294,20 +297,20 @@ h1 {
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   font-weight: bold;
-}
-
-.control-btn:hover {
-  background-color: #e0e0e0;
-  color: #222;
-  transform: scale(1.1);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-}
-
-.control-btn:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(200, 200, 200, 0.5), 0 4px 8px rgba(0,0,0,0.15);
+  
+  &:hover {
+    background-color: vars.$bg-control-hover;
+    color: #222;
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(200, 200, 200, 0.5), 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
 }
 
 @media (max-width: 1024px) {

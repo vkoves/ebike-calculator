@@ -332,17 +332,20 @@ function formatCurrency(value) {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@use 'sass:color';
+@use '../../assets/scss/variables' as vars;
+
 .savings-section {
-  background-color: #f8f9fa;
+  background-color: vars.$lightest-gray;
   border-radius: 12px;
   padding: 2rem;
   margin: 2rem 0;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  box-shadow: vars.$shadow-sm;
 }
 
 .savings-heading {
-  color: #2c8a57;
+  color: vars.$primary;
   margin-bottom: 0.5rem;
   text-align: center;
   font-size: 2.2rem;
@@ -350,7 +353,7 @@ function formatCurrency(value) {
 }
 
 .savings-intro {
-  color: #7f8c8d;
+  color: vars.$gray;
   margin-bottom: 1.5rem;
   text-align: center;
 }
@@ -360,26 +363,26 @@ function formatCurrency(value) {
   flex-direction: column;
   align-items: center;
   margin-bottom: 2rem;
-  background-color: #eafaf1;
+  background-color: vars.$primary-lighter;
   padding: 1rem;
-  border-radius: 10px;
-  border: 1px dashed #2c8a57;
+  border-radius: vars.$border-radius;
+  border: 1px dashed vars.$primary;
 }
 
 .compare-selector label {
   font-weight: 600;
-  color: #2c8a57;
+  color: vars.$primary;
   margin-bottom: 0.75rem;
   font-size: 1.1rem;
 }
 
 .compare-selector select {
   padding: 0.75rem 1.5rem;
-  border-radius: 30px;
-  border: 1px solid #2c8a57;
-  background-color: white;
+  border-radius: vars.$border-radius-lg;
+  border: 1px solid vars.$primary;
+  background-color: vars.$white;
   font-size: 1rem;
-  color: #333;
+  color: vars.$text-body;
   cursor: pointer;
   width: 100%;
   max-width: 400px;
@@ -391,31 +394,31 @@ function formatCurrency(value) {
   background-position: right 1rem top 50%;
   background-size: 0.65rem auto;
   transition: all 0.2s ease;
-}
-
-.compare-selector select:hover {
-  border-color: #236b45;
-  box-shadow: 0 2px 8px rgba(44, 138, 87, 0.2);
-}
-
-.compare-selector select:focus {
-  border-color: #236b45;
-  box-shadow: 0 0 0 3px rgba(44, 138, 87, 0.2);
-}
-
-.compare-selector select:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  border-color: #cacaca;
+  
+  &:hover {
+    border-color: vars.$primary-dark;
+    box-shadow: vars.$shadow-button;
+  }
+  
+  &:focus {
+    border-color: vars.$primary-dark;
+    box-shadow: 0 0 0 3px rgba(44, 138, 87, 0.2);
+  }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    border-color: vars.$bg-disabled;
+  }
 }
 
 .debug-info {
-  background-color: #ffebee;
-  color: #d32f2f;
+  background-color: vars.$danger-light;
+  color: vars.$danger-darker;
   font-family: monospace;
   padding: 0.5rem;
   margin-top: 0.5rem;
-  border-radius: 4px;
+  border-radius: vars.$border-radius-sm;
   font-size: 0.9rem;
 }
 
@@ -431,35 +434,35 @@ function formatCurrency(value) {
 .comparison-item {
   flex: 1;
   min-width: 250px;
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+  background-color: vars.$white;
+  border-radius: vars.$border-radius;
+  box-shadow: vars.$shadow-md;
   overflow: hidden;
 }
 
 .comparison-header {
   padding: 1rem;
   text-align: center;
-  border-bottom: 1px solid #f1f1f1;
-}
-
-.comparison-header img {
-  width: 150px;
-  height: 100px;
-  object-fit: contain;
-  margin-bottom: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  transition: all 0.3s ease;
+  border-bottom: 1px solid vars.$border-lighter;
+  
+  img {
+    width: 150px;
+    height: 100px;
+    object-fit: contain;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    box-shadow: vars.$shadow-image;
+    transition: all 0.3s ease;
+  }
+  
+  h4 {
+    color: vars.$dark;
+    font-size: 1.2rem;
+  }
 }
 
 .comparing .comparison-header img {
-  box-shadow: 0 3px 10px rgba(52, 152, 219, 0.3);
-}
-
-.comparison-header h4 {
-  color: #2c3e50;
-  font-size: 1.2rem;
+  box-shadow: vars.$shadow-image-highlight;
 }
 
 .cost-breakdown {
@@ -471,25 +474,25 @@ function formatCurrency(value) {
   justify-content: space-between;
   margin-bottom: 1rem;
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid #f1f1f1;
-}
-
-.cost-item.total {
-  font-weight: bold;
-  font-size: 1.1rem;
-  margin-top: 1.5rem;
-  border-top: 2px solid #f1f1f1;
-  border-bottom: none;
-  padding-top: 1rem;
+  border-bottom: 1px solid vars.$border-lighter;
+  
+  &.total {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-top: 1.5rem;
+    border-top: 2px solid vars.$border-lighter;
+    border-bottom: none;
+    padding-top: 1rem;
+  }
 }
 
 .cost-label {
-  color: #7f8c8d;
+  color: vars.$gray;
 }
 
 .cost-value {
   font-weight: 600;
-  color: #2c3e50;
+  color: vars.$dark;
 }
 
 .comparison-divider {
@@ -502,8 +505,8 @@ function formatCurrency(value) {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-color: #3498db;
-  color: white;
+  background-color: vars.$secondary;
+  color: vars.$white;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -514,8 +517,8 @@ function formatCurrency(value) {
   display: inline-block;
   font-size: 0.7rem;
   font-weight: normal;
-  background-color: #3498db;
-  color: white;
+  background-color: vars.$secondary;
+  color: vars.$white;
   padding: 0.2rem 0.5rem;
   border-radius: 12px;
   margin-left: 0.5rem;
@@ -523,31 +526,31 @@ function formatCurrency(value) {
 }
 
 .comparison-item.comparing {
-  border-left: 3px solid #3498db;
+  border-left: 3px solid vars.$secondary;
 }
 
 .bike .cost-value {
-  color: #2c8a57;
+  color: vars.$primary;
 }
 
 .car .cost-value {
-  color: #e74c3c;
+  color: vars.$danger;
 }
 
 .car .cost-item.total .cost-value {
-  color: #c0392b;
+  color: vars.$danger-dark;
 }
 
 .bike .cost-item.total .cost-value {
-  color: #27ae60;
+  color: vars.$primary-light;
 }
 
 .savings-highlight {
   display: flex;
   flex-direction: column;
   text-align: center;
-  background-color: #e8f8ee;
-  border-radius: 10px;
+  background-color: vars.$bg-highlight;
+  border-radius: vars.$border-radius;
   padding: 2rem;
   display: flex;
   flex-wrap: wrap;
@@ -561,26 +564,26 @@ function formatCurrency(value) {
   flex: 1;
   min-width: 250px;
   text-align: center;
-}
-
-.savings-number h3 {
-  margin-bottom: 1rem;
-}
-
-.savings-number .amount {
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: #27ae60;
+  
+  h3 {
+    margin-bottom: 1rem;
+  }
+  
+  .amount {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: vars.$primary-light;
+  }
 }
 
 .savings-benefits {
   flex: 2;
   min-width: 250px;
-}
-
-.savings-benefits h4 {
-  color: #2c3e50;
-  margin-bottom: 1rem;
+  
+  h4 {
+    color: vars.$dark;
+    margin-bottom: 1rem;
+  }
 }
 
 .benefits-grid {
@@ -591,17 +594,29 @@ function formatCurrency(value) {
 }
 
 .benefit-card {
-  background-color: white;
-  border-radius: 10px;
+  background-color: vars.$white;
+  border-radius: vars.$border-radius;
   padding: 1.5rem;
   text-align: center;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  box-shadow: vars.$shadow-md;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.benefit-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: vars.$shadow-lg;
+  }
+  
+  h5 {
+    color: vars.$primary;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  p {
+    color: vars.$dark;
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
 }
 
 .benefit-emoji {
@@ -609,43 +624,25 @@ function formatCurrency(value) {
   margin-bottom: 1rem;
 }
 
-.benefit-card h5 {
-  color: #2c8a57;
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
-}
-
-.benefit-card p {
-  color: #2c3e50;
-  font-size: 0.95rem;
-  line-height: 1.4;
-}
-
-@media (max-width: 900px) {
-  .benefits-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
 /* FAQ Section Styles */
 .faq-section {
-  background-color: #f8f9fa;
+  background-color: vars.$lightest-gray;
   border-radius: 12px;
   padding: 2rem;
   margin: 2rem 0;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-}
-
-.faq-section h3 {
-  color: #2c8a57;
-  text-align: center;
-  margin-bottom: 1.5rem;
-  font-size: 1.8rem;
+  box-shadow: vars.$shadow-sm;
+  
+  h3 {
+    color: vars.$primary;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+  }
 }
 
 .faq-content p {
   text-align: center;
-  color: #2c3e50;
+  color: vars.$dark;
   margin-bottom: 2rem;
   line-height: 1.6;
   max-width: 800px;
@@ -661,19 +658,32 @@ function formatCurrency(value) {
 }
 
 .alternative-card {
-  background-color: white;
-  border-radius: 10px;
+  background-color: vars.$white;
+  border-radius: vars.$border-radius;
   padding: 1.5rem;
   text-align: center;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  box-shadow: vars.$shadow-md;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
-}
-
-.alternative-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: vars.$shadow-lg;
+  }
+  
+  h4 {
+    color: vars.$dark;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+  }
+  
+  p {
+    color: vars.$gray;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    flex-grow: 1;
+  }
 }
 
 .alternative-icon {
@@ -681,87 +691,74 @@ function formatCurrency(value) {
   margin-bottom: 1rem;
 }
 
-.alternative-card h4 {
-  color: #2c3e50;
-  margin-bottom: 0.75rem;
-  font-size: 1.25rem;
-}
-
-.alternative-card p {
-  color: #7f8c8d;
-  font-size: 0.95rem;
-  margin-bottom: 1rem;
-  flex-grow: 1;
-}
-
 .alternative-savings {
-  background-color: #eafaf1;
+  background-color: vars.$primary-lighter;
   padding: 0.75rem;
   border-radius: 8px;
   font-size: 0.9rem;
-  color: #27ae60;
+  color: vars.$primary-light;
 }
 
 .total-comparison {
-  background-color: #2c8a57;
+  background-color: vars.$primary;
   padding: 1.75rem;
-  border-radius: 10px;
+  border-radius: vars.$border-radius;
   text-align: center;
   max-width: 800px;
   margin: 0 auto;
-  box-shadow: 0 4px 12px rgba(44, 138, 87, 0.3);
+  box-shadow: vars.$shadow-primary;
   position: relative;
   overflow: hidden;
   animation: pulse 2s infinite;
+  
+  p {
+    margin-bottom: 0;
+    font-size: 1.2rem;
+    color: vars.$white;
+    line-height: 1.6;
+  }
+  
+  strong {
+    color: vars.$white;
+    font-weight: 700;
+    background-color: rgba(255, 255, 255, vars.$opacity-light);
+    padding: 0.15rem 0.4rem;
+    border-radius: vars.$border-radius-sm;
+  }
 }
 
 @keyframes pulse {
   0% {
-    box-shadow: 0 4px 12px rgba(44, 138, 87, 0.3);
+    box-shadow: vars.$shadow-primary;
   }
   50% {
-    box-shadow: 0 8px 24px rgba(44, 138, 87, 0.5);
+    box-shadow: vars.$shadow-primary-active;
   }
   100% {
-    box-shadow: 0 4px 12px rgba(44, 138, 87, 0.3);
+    box-shadow: vars.$shadow-primary;
   }
-}
-
-.total-comparison p {
-  margin-bottom: 0;
-  font-size: 1.2rem;
-  color: white;
-  line-height: 1.6;
-}
-
-.total-comparison strong {
-  color: #ffffff;
-  font-weight: 700;
-  background-color: rgba(255, 255, 255, 0.2);
-  padding: 0.15rem 0.4rem;
-  border-radius: 4px;
 }
 
 .highlight-amount {
   display: block;
   margin: 0.5rem 0;
   font-size: 1.4rem;
-}
-
-.highlight-amount strong {
-  background-color: rgba(255, 255, 255, 0.25);
-  padding: 0.3rem 0.7rem;
-  border-radius: 6px;
-  font-size: 1.5rem;
-  font-weight: 800;
-  letter-spacing: 0.5px;
-  display: inline-block;
-  margin: 0.25rem 0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  
+  strong {
+    background-color: rgba(255, 255, 255, vars.$opacity-medium);
+    padding: 0.3rem 0.7rem;
+    border-radius: 6px;
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    display: inline-block;
+    margin: 0.25rem 0;
+    box-shadow: vars.$shadow-card;
+  }
 }
 
 @media (max-width: 900px) {
-  .alternatives-grid {
+  .benefits-grid, .alternatives-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
@@ -773,26 +770,26 @@ function formatCurrency(value) {
   
   .compare-selector {
     padding: 0.75rem;
-  }
-  
-  .compare-selector label {
-    font-size: 1rem;
-    text-align: center;
-  }
-  
-  .compare-selector select {
-    padding: 0.6rem 1rem;
-    font-size: 0.9rem;
+    
+    label {
+      font-size: 1rem;
+      text-align: center;
+    }
+    
+    select {
+      padding: 0.6rem 1rem;
+      font-size: 0.9rem;
+    }
   }
 
-  .benefits-grid {
+  .benefits-grid, .alternatives-grid {
     grid-template-columns: 1fr;
     max-width: 300px;
     margin-left: auto;
     margin-right: auto;
   }
 
-  .benefit-emoji {
+  .benefit-emoji, .alternative-icon {
     font-size: 2rem;
     margin-bottom: 0.75rem;
   }
@@ -809,29 +806,18 @@ function formatCurrency(value) {
     font-size: 1.5rem;
   }
   
-  .alternatives-grid {
-    grid-template-columns: 1fr;
-    max-width: 300px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  .alternative-icon {
-    font-size: 2rem;
-  }
-  
   .total-comparison {
     padding: 1.5rem 1rem;
     margin-top: 1rem;
-  }
-  
-  .total-comparison p {
-    font-size: 1.05rem;
-  }
-  
-  .total-comparison strong {
-    display: inline-block;
-    margin: 0.25rem 0;
+    
+    p {
+      font-size: 1.05rem;
+    }
+    
+    strong {
+      display: inline-block;
+      margin: 0.25rem 0;
+    }
   }
 }
 </style>
