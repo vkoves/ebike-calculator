@@ -1,11 +1,16 @@
 <template>
   <div class="recommendation-section">
     <div class="result-card">
+      <div class="recommendation-badge">Recommended</div>
+      
       <div class="result-image">
         <img :src="recommendationDetails.image" :alt="recommendationDetails.title">
       </div>
       <div class="result-content">
-        <h3>{{ recommendationDetails.title }}</h3>
+        <div class="title-row">
+          <h3>{{ recommendationDetails.title }}</h3>
+        </div>
+        
         <p class="result-description">{{ recommendationDetails.description }}</p>
         
         <div class="feature-list">
@@ -47,6 +52,9 @@ defineProps({
   flex-direction: column;
   box-shadow: 0 5px 15px rgba(0,0,0,0.05);
   text-align: left;
+  position: relative;
+  border-left: 4px solid transparent;
+  transition: all 0.3s ease;
 }
 
 .result-image {
@@ -61,10 +69,96 @@ defineProps({
   box-shadow: 0 3px 10px rgba(0,0,0,0.1);
 }
 
+.title-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
 .result-content h3 {
   font-size: 1.5rem;
   color: #2c8a57;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
+  margin-right: 1rem;
+  flex: 1;
+}
+
+.compare-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.compare-selector label {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.compare-selector select {
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  background-color: white;
+  font-size: 0.9rem;
+  color: #333;
+  cursor: pointer;
+  min-width: 200px;
+}
+
+.compare-selector select:focus {
+  outline: none;
+  border-color: #2c8a57;
+  box-shadow: 0 0 0 2px rgba(44, 138, 87, 0.2);
+}
+
+.compare-selector select:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.return-button {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.6rem 1.2rem;
+  background-color: #f8f9fa;
+  border: 1px solid #2c8a57;
+  color: #2c8a57;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.return-button:hover {
+  background-color: #e8f5ee;
+}
+
+.comparison-badge,
+.recommendation-badge {
+  position: absolute;
+  top: -10px;
+  left: 20px;
+  padding: 0.3rem 1rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.comparison-badge {
+  background-color: #3498db;
+}
+
+.recommendation-badge {
+  background-color: #2c8a57;
+}
+
+.original-recommendation {
+  border-left: 4px solid #2c8a57;
 }
 
 .result-description {
@@ -109,6 +203,36 @@ defineProps({
   
   .result-content {
     flex: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .title-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .result-content h3 {
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
+  
+  .compare-selector {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+  }
+  
+  .compare-selector select {
+    width: 100%;
+  }
+  
+  .comparison-badge,
+  .recommendation-badge {
+    position: static;
+    display: inline-block;
+    margin-bottom: 1rem;
   }
 }
 </style>
