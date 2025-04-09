@@ -4,7 +4,7 @@
       <div class="hero-content">
         <h1>Discover Your Perfect Ride</h1>
         <p class="subtitle">Find out if cycling could replace some of your car trips, improve your health, and save you money.</p>
-        
+
         <div class="benefits-summary">
           <div class="benefit-item">
             <div class="benefit-icon">💰</div>
@@ -23,10 +23,10 @@
             <div>Save time</div>
           </div>
         </div>
-        
+
         <button class="cta-button" @click="startAssessment">Find Your Perfect Bike</button>
       </div>
-      
+
       <div class="bike-showcase">
         <div class="carousel-3d-container">
           <div class="carousel-3d" :style="{ transform: 'rotateY(' + currentRotation + 'deg)' }">
@@ -48,7 +48,7 @@
             </div>
           </div>
         </div>
-        
+
         <div class="carousel-controls">
           <button class="control-btn prev" @click="rotateCarousel('prev')" aria-label="Previous bike">
             &#10094;
@@ -81,13 +81,13 @@ function rotateCarousel(direction) {
     clearInterval(autoRotateInterval.value);
     startAutoRotation(); // Restart the auto-rotation
   }
-  
+
   if (direction === 'next') {
     carouselIndex.value = (carouselIndex.value + 1) % 4;
   } else {
     carouselIndex.value = (carouselIndex.value - 1 + 4) % 4;
   }
-  
+
   // Calculate the rotation angle
   currentRotation.value = -90 * carouselIndex.value;
 }
@@ -165,22 +165,42 @@ h1 {
 }
 
 .cta-button {
-  background: #3498db;
+  background: #2c8a57;
   color: white;
   border: none;
-  padding: 1rem 2.5rem;
-  font-size: 1.1rem;
-  font-weight: 600;
+  padding: 1.2rem 3rem;
+  font-size: 1.3rem;
+  font-weight: 700;
   border-radius: 30px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+  box-shadow: 0 5px 15px rgba(44, 138, 87, 0.4);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  letter-spacing: 0.5px;
 }
 
 .cta-button:hover {
-  background: #2980b9;
-  transform: translateY(-3px);
-  box-shadow: 0 6px 15px rgba(52, 152, 219, 0.4);
+  background: #236b45;
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(44, 138, 87, 0.5);
+}
+
+.cta-button:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: 0.5s;
+  z-index: -1;
+}
+
+.cta-button:hover:before {
+  left: 100%;
 }
 
 /* 3D Carousel Styles */
@@ -294,24 +314,24 @@ h1 {
   .hero-container {
     flex-direction: column;
   }
-  
+
   .hero-content {
     max-width: 100%;
     padding: 2rem;
     text-align: center;
     flex: 0 0 auto;
   }
-  
+
   .benefits-summary {
     justify-content: center;
   }
-  
+
   .bike-showcase {
     width: 100%;
     height: 400px;
     margin-bottom: 2rem;
   }
-  
+
   .carousel-controls {
     bottom: 50%;
     transform: translateY(50%);
@@ -322,36 +342,39 @@ h1 {
   h1 {
     font-size: 2rem;
   }
-  
+
   .subtitle {
     font-size: 1rem;
   }
-  
+
   .cta-button {
-    padding: 0.8rem 2rem;
-    font-size: 1rem;
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    width: 80%;
+    max-width: 300px;
+    margin: 0 auto;
   }
-  
+
   .benefit-item {
     padding: 0.4rem 0.8rem;
     font-size: 0.8rem;
   }
-  
+
   .bike-showcase {
     height: 300px;
   }
-  
+
   .carousel-3d {
     width: 200px;
     height: 250px;
   }
-  
+
   .control-btn {
     width: 40px;
     height: 40px;
     font-size: 1.2rem;
   }
-  
+
   .carousel-controls {
     padding: 0 1rem;
   }

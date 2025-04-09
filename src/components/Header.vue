@@ -2,7 +2,7 @@
   <header class="site-header">
     <div class="header-container">
       <div class="logo">
-        <router-link to="/">EBike Calculator</router-link>
+        <router-link to="/">The Right Bike</router-link>
       </div>
       <nav>
         <ul>
