@@ -302,7 +302,7 @@ h1 {
   
   &:hover {
     background-color: vars.$bg-control-hover;
-    color: #222;
+    color: vars.$text-body;
     transform: scale(1.1);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
   }

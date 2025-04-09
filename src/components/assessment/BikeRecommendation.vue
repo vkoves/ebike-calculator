@@ -38,19 +38,22 @@ defineProps({
 });
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@use 'sass:color';
+@use '../../assets/scss/variables' as vars;
+
 .recommendation-section {
   margin-bottom: 2rem;
 }
 
 .result-card {
-  background-color: #f8f9fa;
+  background-color: vars.$lightest-gray;
   border-radius: 12px;
   padding: 2rem;
   margin: 2rem 0;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  box-shadow: vars.$shadow-sm;
   text-align: left;
   position: relative;
   border-left: 4px solid transparent;
@@ -60,13 +63,13 @@ defineProps({
 .result-image {
   margin-bottom: 1.5rem;
   text-align: center;
-}
-
-.result-image img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 8px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: vars.$shadow-md;
+  }
 }
 
 .title-row {
@@ -79,7 +82,7 @@ defineProps({
 
 .result-content h3 {
   font-size: 1.5rem;
-  color: #2c8a57;
+  color: vars.$primary;
   margin-bottom: 0.5rem;
   margin-right: 1rem;
   flex: 1;
@@ -90,50 +93,50 @@ defineProps({
   align-items: center;
   gap: 0.5rem;
   margin-bottom: 0.5rem;
-}
-
-.compare-selector label {
-  font-size: 0.9rem;
-  color: #555;
-}
-
-.compare-selector select {
-  padding: 0.5rem;
-  border-radius: 5px;
-  border: 1px solid #ddd;
-  background-color: white;
-  font-size: 0.9rem;
-  color: #333;
-  cursor: pointer;
-  min-width: 200px;
-}
-
-.compare-selector select:focus {
-  outline: none;
-  border-color: #2c8a57;
-  box-shadow: 0 0 0 2px rgba(44, 138, 87, 0.2);
-}
-
-.compare-selector select:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+  
+  label {
+    font-size: 0.9rem;
+    color: vars.$text-secondary;
+  }
+  
+  select {
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid vars.$border-form;
+    background-color: vars.$white;
+    font-size: 0.9rem;
+    color: vars.$text-body;
+    cursor: pointer;
+    min-width: 200px;
+    
+    &:focus {
+      outline: none;
+      border-color: vars.$primary;
+      box-shadow: 0 0 0 2px rgba(44, 138, 87, 0.2);
+    }
+    
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
 }
 
 .return-button {
   display: inline-block;
   margin-top: 1rem;
   padding: 0.6rem 1.2rem;
-  background-color: #f8f9fa;
-  border: 1px solid #2c8a57;
-  color: #2c8a57;
+  background-color: vars.$lightest-gray;
+  border: 1px solid vars.$primary;
+  color: vars.$primary;
   border-radius: 5px;
   font-size: 0.9rem;
   cursor: pointer;
   transition: all 0.2s ease;
-}
-
-.return-button:hover {
-  background-color: #e8f5ee;
+  
+  &:hover {
+    background-color: vars.$primary-lighter;
+  }
 }
 
 .comparison-badge,
@@ -145,24 +148,24 @@ defineProps({
   border-radius: 20px;
   font-size: 0.8rem;
   font-weight: 600;
-  color: white;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  color: vars.$white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .comparison-badge {
-  background-color: #3498db;
+  background-color: vars.$secondary;
 }
 
 .recommendation-badge {
-  background-color: #2c8a57;
+  background-color: vars.$primary;
 }
 
 .original-recommendation {
-  border-left: 4px solid #2c8a57;
+  border-left: 4px solid vars.$primary;
 }
 
 .result-description {
-  color: #2c3e50;
+  color: vars.$dark;
   margin-bottom: 1.5rem;
   line-height: 1.6;
 }
@@ -178,7 +181,7 @@ defineProps({
 }
 
 .feature-icon {
-  color: #2c8a57;
+  color: vars.$primary;
   font-weight: bold;
   margin-right: 0.75rem;
 }
@@ -186,7 +189,7 @@ defineProps({
 .price-range {
   margin-top: 1.5rem;
   padding-top: 1rem;
-  border-top: 1px solid #dee2e6;
+  border-top: 1px solid vars.$border-gray;
 }
 
 @media (min-width: 768px) {
@@ -222,10 +225,10 @@ defineProps({
     flex-direction: column;
     align-items: flex-start;
     margin-bottom: 1.5rem;
-  }
-  
-  .compare-selector select {
-    width: 100%;
+    
+    select {
+      width: 100%;
+    }
   }
   
   .comparison-badge,
