@@ -2,64 +2,66 @@
   <div class="step-container">
     <h2>What Types Of Transportation Needs Do You Have?</h2>
     <p class="subtitle">Select all that apply to your situation</p>
-    
+
     <div class="options-grid">
-      <button 
+      <button
         type="button"
-        class="option-card" 
+        class="option-card"
         :class="{ selected: modelValue.soloCommuting }"
         @click="toggleNeed('soloCommuting')"
         :aria-pressed="modelValue.soloCommuting.toString()"
       >
         <div class="option-icon">🚴</div>
-        <div class="option-label">Solo Commuting</div>
+        <div class="option-content">
+          <div class="option-label">Solo Commuting</div>
+          <div class="option-description">Daily commuting or exercise</div>
+        </div>
       </button>
-      
+
       <button
-        type="button" 
-        class="option-card" 
+        type="button"
+        class="option-card"
         :class="{ selected: modelValue.cargo }"
         @click="toggleNeed('cargo')"
         :aria-pressed="modelValue.cargo.toString()"
       >
         <div class="option-icon">📦</div>
-        <div class="option-label">Cargo</div>
+        <div class="option-content">
+          <div class="option-label">Cargo</div>
+          <div class="option-description">Carrying groceries or goods</div>
+        </div>
       </button>
-      
+
       <button
-        type="button" 
-        class="option-card" 
+        type="button"
+        class="option-card"
         :class="{ selected: modelValue.transportingKids }"
         @click="toggleNeed('transportingKids')"
         :aria-pressed="modelValue.transportingKids.toString()"
       >
         <div class="option-icon">👶</div>
-        <div class="option-label">Transporting Kids</div>
+        <div class="option-content">
+          <div class="option-label">Transporting Kids</div>
+          <div class="option-description">Taking children to school or activities</div>
+        </div>
       </button>
-      
+
       <button
-        type="button" 
-        class="option-card" 
+        type="button"
+        class="option-card"
         :class="{ selected: modelValue.transportingAdults }"
         @click="toggleNeed('transportingAdults')"
         :aria-pressed="modelValue.transportingAdults.toString()"
       >
-        <div class="option-icon">👨‍👩‍👧</div>
-        <div class="option-label">Transporting Adults</div>
+        <div class="option-icon">👩</div>
+        <div class="option-content">
+          <div class="option-label">Transporting Adults</div>
+          <div class="option-description">Carrying adult passengers</div>
+        </div>
       </button>
-      
-      <button
-        type="button" 
-        class="option-card" 
-        :class="{ selected: modelValue.towing }"
-        @click="toggleNeed('towing')"
-        :aria-pressed="modelValue.towing.toString()"
-      >
-        <div class="option-icon">🔄</div>
-        <div class="option-label">Towing</div>
-      </button>
+
     </div>
-    
+
     <div class="navigation-buttons">
       <button class="btn-next" @click="$emit('next')" :disabled="!hasSelectedAny">Continue</button>
     </div>
@@ -89,7 +91,7 @@ function toggleNeed(need) {
   updatedNeeds[need] = !updatedNeeds[need];
   // Emit the update event with the new object
   emit('update:modelValue', updatedNeeds);
-  
+
   // For debugging
   console.log('Updated transportationNeeds:', updatedNeeds);
 }
@@ -124,7 +126,7 @@ h2 {
   background-color: #f8f9fa;
   border: 2px solid #e9ecef;
   border-radius: 10px;
-  padding: 1.5rem;
+  padding: 1.5rem 1rem;
   text-align: center;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -132,11 +134,14 @@ h2 {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between; /* Equally distribute space */
   /* Button reset styles */
   appearance: none;
   font: inherit;
   color: inherit;
   width: 100%;
+  height: 100%;
+  min-height: 180px; /* Slightly taller to accommodate fixed heights */
 }
 
 .option-card:hover {
@@ -174,12 +179,40 @@ h2 {
 
 .option-icon {
   font-size: 2rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
+  flex-shrink: 0;
+}
+
+/* Wrapper for text content to maintain consistent alignment */
+.option-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-grow: 1;
+  justify-content: flex-start;
+  width: 100%;
 }
 
 .option-label {
   font-weight: 600;
   color: #2c3e50;
+  height: 3rem; /* Fixed height for all labels */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+  width: 80%;
+}
+
+.option-description {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: #7f8c8d;
+  line-height: 1.3;
+  height: 40px; /* Fixed height for all descriptions */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .navigation-buttons {
@@ -226,12 +259,12 @@ h2 {
   .options-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .navigation-buttons {
     flex-direction: column;
     gap: 1rem;
   }
-  
+
   .btn-prev, .btn-next {
     width: 100%;
   }

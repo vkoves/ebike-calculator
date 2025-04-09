@@ -74,11 +74,23 @@
       </div>
       <div class="savings-benefits">
         <h4>What else you could do with this money:</h4>
-        <ul>
-          <li>Take {{ Math.round(savingsAmount / 2000) }} international vacations</li>
-          <li>Save for a down payment on a home</li>
-          <li>Invest for retirement (worth {{ formatCurrency(savingsAmount * 1.5) }} in 10 years at 7% growth)</li>
-        </ul>
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <div class="benefit-emoji">✈️</div>
+            <h5>Travel</h5>
+            <p>Take {{ Math.round(savingsAmount / 2000) }} international vacations</p>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-emoji">🏠</div>
+            <h5>Housing</h5>
+            <p>Save for a down payment on your dream home</p>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-emoji">📈</div>
+            <h5>Invest</h5>
+            <p>Worth {{ formatCurrency(savingsAmount * 1.5) }} in 10 years at 7% growth</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -251,6 +263,9 @@ function formatCurrency(value) {
 }
 
 .savings-highlight {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
   background-color: #e8f8ee;
   border-radius: 10px;
   padding: 2rem;
@@ -288,25 +303,65 @@ function formatCurrency(value) {
   margin-bottom: 1rem;
 }
 
-.savings-benefits ul {
-  list-style-type: disc;
-  padding-left: 1.5rem;
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 1.5rem;
 }
 
-.savings-benefits li {
+.benefit-card {
+  background-color: white;
+  border-radius: 10px;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.benefit-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.benefit-emoji {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.benefit-card h5 {
+  color: #2c8a57;
+  font-size: 1.1rem;
   margin-bottom: 0.5rem;
+}
+
+.benefit-card p {
   color: #2c3e50;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+@media (max-width: 900px) {
+  .benefits-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 600px) {
-  .savings-highlight {
-    flex-direction: column;
-    text-align: center;
+  .benefits-grid {
+    grid-template-columns: 1fr;
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
-  .savings-benefits ul {
-    display: inline-block;
-    text-align: left;
+  .benefit-emoji {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .benefit-card {
+    padding: 1.25rem;
   }
 }
 </style>

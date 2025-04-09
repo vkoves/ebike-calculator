@@ -70,8 +70,7 @@ const transportationNeeds = ref({
   soloCommuting: false,
   cargo: false,
   transportingKids: false,
-  transportingAdults: false,
-  towing: false
+  transportingAdults: false
 });
 
 // Use ref with an object inside instead of reactive directly
@@ -125,15 +124,13 @@ const needsAssistance = computed(() => {
          fitnessLevel.value === 'low' ||
          transportationNeeds.value.cargo ||
          transportationNeeds.value.transportingKids ||
-         transportationNeeds.value.transportingAdults ||
-         transportationNeeds.value.towing;
+         transportationNeeds.value.transportingAdults;
 });
 
 const needsCargo = computed(() => {
   return transportationNeeds.value.cargo || 
          transportationNeeds.value.transportingKids || 
-         transportationNeeds.value.transportingAdults ||
-         transportationNeeds.value.towing;
+         transportationNeeds.value.transportingAdults;
 });
 
 // Methods
@@ -297,8 +294,7 @@ function restartAssessment() {
     soloCommuting: false,
     cargo: false,
     transportingKids: false,
-    transportingAdults: false,
-    towing: false
+    transportingAdults: false
   };
   
   // Reset geography
