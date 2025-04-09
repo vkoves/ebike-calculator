@@ -345,7 +345,10 @@ function restartAssessment() {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@use "sass:color";
+@use '../../assets/scss/variables' as vars;
+
 .page-container {
   max-width: 1100px;
   margin: 0 auto;
@@ -357,27 +360,27 @@ function restartAssessment() {
   max-width: 700px;
   margin: 0 auto 2.5rem auto;
   font-size: 1.2rem;
-  color: #555;
+  color: vars.$text-secondary;
 }
 
 h1 {
   text-align: center;
   margin-bottom: 1rem;
-  color: #2c8a57;
+  color: vars.$primary;
 }
 
 .assessment-container {
   max-width: 900px;
   margin: 0 auto;
   padding: 2rem;
-  background-color: white;
+  background-color: vars.$bg-card;
   border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  box-shadow: vars.$shadow-sm;
 }
 
 .progress-bar {
   height: 8px;
-  background-color: #e9ecef;
+  background-color: vars.$lighter-gray;
   border-radius: 4px;
   margin-bottom: 2rem;
   overflow: hidden;
@@ -385,7 +388,7 @@ h1 {
 
 .progress {
   height: 100%;
-  background-color: #2c8a57;
+  background-color: vars.$primary;
   transition: width 0.3s ease;
 }
 
@@ -400,7 +403,7 @@ h1 {
 h2 {
   text-align: center;
   margin-bottom: 0.5rem;
-  color: #2c3e50;
+  color: vars.$dark;
 }
 
 /* Animations */

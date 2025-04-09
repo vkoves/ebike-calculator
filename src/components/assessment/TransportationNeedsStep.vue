@@ -97,93 +97,24 @@ function toggleNeed(need) {
 }
 </script>
 
-<style scoped>
-/* These styles are shared across components - could be moved to a common CSS file */
-.step-container {
-  margin-bottom: 2rem;
-}
+<style lang="scss" scoped>
+@use "sass:color";
+@use '../../assets/scss/variables' as vars;
+@use "../../assets/scss/assessment";
 
-h2 {
-  text-align: center;
-  margin-bottom: 0.5rem;
-  color: #2c3e50;
-}
-
-.subtitle {
-  text-align: center;
-  color: #7f8c8d;
-  margin-bottom: 2rem;
-}
-
-.options-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 2rem;
-}
-
+/* Component-specific overrides */
 .option-card {
-  background-color: #f8f9fa;
-  border: 2px solid #e9ecef;
-  border-radius: 10px;
   padding: 1.5rem 1rem;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between; /* Equally distribute space */
-  /* Button reset styles */
-  appearance: none;
-  font: inherit;
-  color: inherit;
-  width: 100%;
+  justify-content: space-between;
   height: 100%;
-  min-height: 180px; /* Slightly taller to accommodate fixed heights */
-}
-
-.option-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-.option-card:focus {
-  outline: none;
-  border-color: #3498db;
-  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
-}
-
-.option-card.selected {
-  border-color: #2c8a57;
-  background-color: rgba(44, 138, 87, 0.05);
-}
-
-.option-card.selected::before {
-  content: "✓";
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 24px;
-  height: 24px;
-  background-color: #2c8a57;
-  color: white;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 14px;
+  min-height: 180px;
 }
 
 .option-icon {
-  font-size: 2rem;
   margin-bottom: 0.5rem;
   flex-shrink: 0;
 }
 
-/* Wrapper for text content to maintain consistent alignment */
 .option-content {
   display: flex;
   flex-direction: column;
@@ -194,9 +125,7 @@ h2 {
 }
 
 .option-label {
-  font-weight: 600;
-  color: #2c3e50;
-  height: 3rem; /* Fixed height for all labels */
+  height: 3rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -205,68 +134,11 @@ h2 {
 }
 
 .option-description {
-  margin-top: 0.5rem;
   font-size: 0.8rem;
-  color: #7f8c8d;
   line-height: 1.3;
-  height: 40px; /* Fixed height for all descriptions */
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.navigation-buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 2rem;
-}
-
-.btn-prev,
-.btn-next {
-  padding: 0.75rem 1.5rem;
-  border-radius: 30px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  border: none;
-}
-
-.btn-prev {
-  background-color: #e9ecef;
-  color: #495057;
-}
-
-.btn-prev:hover {
-  background-color: #dee2e6;
-}
-
-.btn-next {
-  background-color: #2c8a57;
-  color: white;
-  margin-left: auto;
-}
-
-.btn-next:hover {
-  background-color: #236b45;
-}
-
-.btn-next:disabled {
-  background-color: #b8d8c7;
-  cursor: not-allowed;
-}
-
-@media (max-width: 600px) {
-  .options-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .navigation-buttons {
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .btn-prev, .btn-next {
-    width: 100%;
-  }
 }
 </style>
