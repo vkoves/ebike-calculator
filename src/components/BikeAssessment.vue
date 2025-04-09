@@ -15,50 +15,60 @@
         <p class="subtitle">Select all that apply to your situation</p>
         
         <div class="options-grid">
-          <div 
+          <button 
+            type="button"
             class="option-card" 
             :class="{ selected: transportationNeeds.soloCommuting }"
             @click="toggleNeed('soloCommuting')"
+            :aria-pressed="transportationNeeds.soloCommuting.toString()"
           >
             <div class="option-icon">🚴</div>
             <div class="option-label">Solo Commuting</div>
-          </div>
+          </button>
           
-          <div 
+          <button
+            type="button" 
             class="option-card" 
             :class="{ selected: transportationNeeds.cargo }"
             @click="toggleNeed('cargo')"
+            :aria-pressed="transportationNeeds.cargo.toString()"
           >
             <div class="option-icon">📦</div>
             <div class="option-label">Cargo</div>
-          </div>
+          </button>
           
-          <div 
+          <button
+            type="button" 
             class="option-card" 
             :class="{ selected: transportationNeeds.transportingKids }"
             @click="toggleNeed('transportingKids')"
+            :aria-pressed="transportationNeeds.transportingKids.toString()"
           >
             <div class="option-icon">👶</div>
             <div class="option-label">Transporting Kids</div>
-          </div>
+          </button>
           
-          <div 
+          <button
+            type="button" 
             class="option-card" 
             :class="{ selected: transportationNeeds.transportingAdults }"
             @click="toggleNeed('transportingAdults')"
+            :aria-pressed="transportationNeeds.transportingAdults.toString()"
           >
             <div class="option-icon">👨‍👩‍👧</div>
             <div class="option-label">Transporting Adults</div>
-          </div>
+          </button>
           
-          <div 
+          <button
+            type="button" 
             class="option-card" 
             :class="{ selected: transportationNeeds.towing }"
             @click="toggleNeed('towing')"
+            :aria-pressed="transportationNeeds.towing.toString()"
           >
             <div class="option-icon">🔄</div>
             <div class="option-label">Towing</div>
-          </div>
+          </button>
         </div>
         
         <div class="navigation-buttons">
@@ -72,32 +82,38 @@
         <p class="subtitle">Select all that apply to your location</p>
         
         <div class="options-grid">
-          <div 
+          <button 
+            type="button"
             class="option-card" 
             :class="{ selected: geography.windy }"
             @click="toggleGeography('windy')"
+            :aria-pressed="geography.windy.toString()"
           >
             <div class="option-icon">🌬️</div>
             <div class="option-label">Windy</div>
-          </div>
+          </button>
           
-          <div 
+          <button 
+            type="button"
             class="option-card" 
             :class="{ selected: geography.hilly }"
             @click="toggleGeography('hilly')"
+            :aria-pressed="geography.hilly.toString()"
           >
             <div class="option-icon">⛰️</div>
             <div class="option-label">Hilly</div>
-          </div>
+          </button>
           
-          <div 
+          <button 
+            type="button"
             class="option-card" 
             :class="{ selected: !geography.windy && !geography.hilly }"
             @click="setFlatGeography"
+            :aria-pressed="(!geography.windy && !geography.hilly).toString()"
           >
             <div class="option-icon">📏</div>
             <div class="option-label">Mostly Flat</div>
-          </div>
+          </button>
         </div>
         
         <div class="navigation-buttons">
@@ -112,35 +128,41 @@
         <p class="subtitle">Be honest - this helps us make the right recommendation</p>
         
         <div class="options-grid">
-          <div 
+          <button 
+            type="button"
             class="option-card fitness-card" 
             :class="{ selected: fitnessLevel === 'low' }"
             @click="fitnessLevel = 'low'"
+            :aria-pressed="(fitnessLevel === 'low').toString()"
           >
             <div class="option-icon">😅</div>
             <div class="option-label">Low</div>
             <p class="option-description">I'm nervous about biking at all</p>
-          </div>
+          </button>
           
-          <div 
+          <button 
+            type="button"
             class="option-card fitness-card" 
             :class="{ selected: fitnessLevel === 'medium' }"
             @click="fitnessLevel = 'medium'"
+            :aria-pressed="(fitnessLevel === 'medium').toString()"
           >
             <div class="option-icon">🤷</div>
             <div class="option-label">Medium</div>
             <p class="option-description">I'd be fine biking a bit, but maybe not too far!</p>
-          </div>
+          </button>
           
-          <div 
+          <button 
+            type="button"
             class="option-card fitness-card" 
             :class="{ selected: fitnessLevel === 'high' }"
             @click="fitnessLevel = 'high'"
+            :aria-pressed="(fitnessLevel === 'high').toString()"
           >
             <div class="option-icon">💪</div>
             <div class="option-label">High</div>
             <p class="option-description">I could bike for a long distance, no problem!</p>
-          </div>
+          </button>
         </div>
         
         <div class="navigation-buttons">
@@ -442,6 +464,15 @@ h2 {
   text-align: center;
   cursor: pointer;
   transition: all 0.2s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Button reset styles */
+  appearance: none;
+  font: inherit;
+  color: inherit;
+  width: 100%;
 }
 
 .option-card:hover {
@@ -449,9 +480,32 @@ h2 {
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
+.option-card:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
+}
+
 .option-card.selected {
   border-color: #2c8a57;
   background-color: rgba(44, 138, 87, 0.05);
+}
+
+.option-card.selected::before {
+  content: "✓";
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 24px;
+  height: 24px;
+  background-color: #2c8a57;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 14px;
 }
 
 .option-icon {
