@@ -7,7 +7,7 @@
       
       <div class="bikes-showcase">
         <div class="bike-card">
-          <img src="https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="City Bike" class="bike-image">
+          <img src="/images/bikes/dutch-bike.jpg" alt="City Bike" class="bike-image">
           <div class="bike-info">
             <h3 class="bike-title">City Commuter</h3>
             <p class="bike-description">Perfect for urban commuting with comfort and style. Navigate through city streets with ease.</p>
@@ -15,7 +15,7 @@
         </div>
         
         <div class="bike-card">
-          <img src="https://images.unsplash.com/photo-1571068316344-75bc76f77890?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Electric Bike" class="bike-image">
+          <img src="/images/bikes/gazelle-ebike.jpg" alt="Electric Bike" class="bike-image">
           <div class="bike-info">
             <h3 class="bike-title">Electric Power</h3>
             <p class="bike-description">Effortless rides with electric assistance. Go further, faster, with less effort.</p>
@@ -23,7 +23,7 @@
         </div>
         
         <div class="bike-card">
-          <img src="https://images.unsplash.com/photo-1575585269294-7d28dd912db8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Cargo Bike" class="bike-image">
+          <img src="/images/bikes/tern-gsd-500.jpg" alt="Cargo Bike" class="bike-image">
           <div class="bike-info">
             <h3 class="bike-title">Cargo Carrier</h3>
             <p class="bike-description">Haul groceries, kids, or supplies. The SUV of bicycles for practical everyday use.</p>
