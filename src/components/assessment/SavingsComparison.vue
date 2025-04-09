@@ -115,6 +115,47 @@
         </div>
       </div>
     </div>
+    
+    <!-- FAQ Section -->
+    <div class="faq-section">
+      <h3>What if I need a car sometimes? 🤔</h3>
+      <div class="faq-content">
+        <p>Even with a bike as your primary transportation, you'll occasionally need a car for certain trips. Here are cost-effective alternatives to car ownership:</p>
+        
+        <div class="alternatives-grid">
+          <div class="alternative-card">
+            <div class="alternative-icon">🚗</div>
+            <h4>Car Sharing</h4>
+            <p>Services like Zipcar or Getaround offer hourly rentals (~$10-15/hour) for quick errands.</p>
+            <div class="alternative-savings">
+              <strong>10 rentals/year:</strong> $300-450
+            </div>
+          </div>
+          
+          <div class="alternative-card">
+            <div class="alternative-icon">🚕</div>
+            <h4>Ride Share</h4>
+            <p>Uber, Lyft or taxis are perfect for evenings out or airport trips.</p>
+            <div class="alternative-savings">
+              <strong>20 rides/year:</strong> $400-600
+            </div>
+          </div>
+          
+          <div class="alternative-card">
+            <div class="alternative-icon">🛻</div>
+            <h4>Truck/Van Rental</h4>
+            <p>Home Depot, U-Haul or similar for large purchases and moves.</p>
+            <div class="alternative-savings">
+              <strong>3 rentals/year:</strong> $150-300
+            </div>
+          </div>
+        </div>
+        
+        <div class="total-comparison">
+          <p>Even if you spend <strong>$1,000/year</strong> on occasional rentals and ride-shares, that's still <strong>${{ Math.round((carTotalCost.value - bikeTotalCost.value - 5000) / 1000) * 1000 }}</strong> less than the 5-year cost of car ownership!</p>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -565,6 +606,106 @@ function formatCurrency(value) {
   }
 }
 
+/* FAQ Section Styles */
+.faq-section {
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 2rem 0;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.faq-section h3 {
+  color: #2c8a57;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+}
+
+.faq-content p {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.alternatives-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.alternative-card {
+  background-color: white;
+  border-radius: 10px;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.alternative-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+}
+
+.alternative-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.alternative-card h4 {
+  color: #2c3e50;
+  margin-bottom: 0.75rem;
+  font-size: 1.25rem;
+}
+
+.alternative-card p {
+  color: #7f8c8d;
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+  flex-grow: 1;
+}
+
+.alternative-savings {
+  background-color: #eafaf1;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #27ae60;
+}
+
+.total-comparison {
+  background-color: #e8f5ee;
+  padding: 1.5rem;
+  border-radius: 10px;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+  border: 1px dashed #2c8a57;
+}
+
+.total-comparison p {
+  margin-bottom: 0;
+  font-size: 1.1rem;
+}
+
+.total-comparison strong {
+  color: #27ae60;
+}
+
+@media (max-width: 900px) {
+  .alternatives-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 600px) {
   .savings-heading {
     font-size: 1.8rem;
@@ -602,6 +743,29 @@ function formatCurrency(value) {
   
   .savings-highlight {
     padding: 1.5rem;
+  }
+  
+  .faq-section h3 {
+    font-size: 1.5rem;
+  }
+  
+  .alternatives-grid {
+    grid-template-columns: 1fr;
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .alternative-icon {
+    font-size: 2rem;
+  }
+  
+  .total-comparison {
+    padding: 1.25rem;
+  }
+  
+  .total-comparison p {
+    font-size: 1rem;
   }
 }
 </style>
