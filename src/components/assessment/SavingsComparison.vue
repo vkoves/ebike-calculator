@@ -80,39 +80,6 @@
       </div>
     </div>
 
-    <!-- Bike comparison grid -->
-    <div class="bike-comparison-grid">
-      <h3>Compare with other bikes</h3>
-      <div class="bike-options">
-        <div class="bike-option"
-             v-for="type in availableBikeTypes"
-             :key="type.value"
-             @click="handleComparisonChange(type.value)"
-             :class="{ 'active': comparisonBike === type.value }">
-          <div class="bike-option-image">
-            <img :src="allBikeTypes[type.value].image" :alt="type.label">
-            <div v-if="type.value.includes('ebike')" class="electric-badge">Electric</div>
-          </div>
-          <div class="bike-option-details">
-            <h4>{{ type.label }}</h4>
-            <div class="bike-price">{{ formatCurrency(BIKE_COSTS[type.value].purchase) }}</div>
-          </div>
-        </div>
-        <div class="bike-option original-option"
-             @click="handleComparisonChange('')"
-             :class="{ 'active': comparisonBike === '' }">
-          <div class="bike-option-image">
-            <img :src="bikeImage" :alt="bikeTitle">
-            <div v-if="selectedBikeType && selectedBikeType.includes('ebike')" class="electric-badge">Electric</div>
-          </div>
-          <div class="bike-option-details">
-            <h4>Your Recommendation</h4>
-            <div class="bike-price">{{ formatCurrency(costs.bike.purchase) }}</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <div class="savings-highlight">
       <div class="savings-number">
         <h3>Your 5-Year Savings:</h3>
@@ -136,56 +103,6 @@
             <h5>Invest</h5>
             <p>Worth {{ formatCurrency(savingsAmount * 1.5) }} in 10 years at 7% growth</p>
           </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Footnotes Section -->
-    <div class="footnotes-section" v-if="showFootnotes">
-      <div class="footnote-header">
-        <h3>Sources</h3>
-        <button class="close-footnotes" @click="showFootnotes = false">×</button>
-      </div>
-      <div class="footnote-content">
-        <div class="footnote" v-if="activeFootnote === 'purchase' || activeFootnote === 'all'">
-          <p><strong>¹ Car purchase price:</strong> $48,500 (Average between $48,401 - $48,641)</p>
-          <p class="source-link">
-            <a :href="carCostSources.purchaseSource" target="_blank">
-              Source: Spectrum Local News (September 2024)
-            </a>
-          </p>
-        </div>
-
-        <div class="footnote" v-if="activeFootnote === 'maintenance' || activeFootnote === 'all'">
-          <p><strong>² Car maintenance:</strong> $1,200 (Range: $583 - $1,623 per year, varies by brand)</p>
-          <p class="source-link">
-            <a :href="carCostSources.maintenanceSource" target="_blank">
-              Source: Consumer Affairs
-            </a>
-          </p>
-        </div>
-
-        <div class="footnote" v-if="activeFootnote === 'fuel' || activeFootnote === 'all'">
-          <p><strong>³ Fuel costs:</strong> $2,500 (Range: $500 - $8,250 per year, varies by vehicle)</p>
-          <p class="source-link">
-            <a :href="carCostSources.fuelSource" target="_blank">
-              Source: U.S. Department of Energy
-            </a>
-          </p>
-        </div>
-
-        <div class="footnote" v-if="activeFootnote === 'insurance' || activeFootnote === 'all'">
-          <p><strong>⁴ Insurance costs:</strong> $1,800 (Range: $631 - $2,685 per year, minimum to full coverage)</p>
-          <p class="source-link">
-            <a :href="carCostSources.insuranceSource" target="_blank">
-              Source: Forbes Advisor
-            </a>
-          </p>
-          <p class="source-link">
-            <a :href="carCostSources.insuranceSource2" target="_blank">
-              Additional Source: Bankrate
-            </a>
-          </p>
         </div>
       </div>
     </div>
@@ -237,6 +154,91 @@
             compared to full car ownership, while gaining health benefits and reducing environmental impact!
           </p>
         </div>
+      </div>
+    </div>
+
+    <!-- Bike comparison grid -->
+    <div class="bike-comparison-grid">
+      <h3>Compare with other bikes</h3>
+      <div class="bike-options-scroll-container">
+        <div class="bike-options">
+          <div class="bike-option original-option"
+               @click="handleComparisonChange('')"
+               :class="{ 'active': comparisonBike === '' }">
+            <div class="bike-option-image">
+              <img :src="bikeImage" :alt="bikeTitle">
+              <div v-if="selectedBikeType && selectedBikeType.includes('ebike')" class="electric-badge">Electric</div>
+            </div>
+            <div class="bike-option-details">
+              <h4>Your Recommendation</h4>
+              <div class="bike-price">~ {{ formatCurrency(costs.bike.purchase) }}</div>
+            </div>
+          </div>
+          <div class="bike-option"
+               v-for="type in availableBikeTypes"
+               :key="type.value"
+               @click="handleComparisonChange(type.value)"
+               :class="{ 'active': comparisonBike === type.value }">
+            <div class="bike-option-image">
+              <img :src="allBikeTypes[type.value].image" :alt="type.label">
+              <div v-if="type.value.includes('ebike')" class="electric-badge">Electric</div>
+            </div>
+            <div class="bike-option-details">
+              <h4>{{ type.label }}</h4>
+              <div class="bike-price">~ {{ formatCurrency(BIKE_COSTS[type.value].purchase) }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footnotes Section -->
+  <div class="footnotes-section" v-if="showFootnotes">
+    <div class="footnote-header">
+      <h3>Sources</h3>
+      <button class="close-footnotes" @click="showFootnotes = false">×</button>
+    </div>
+    <div class="footnote-content">
+      <div class="footnote" v-if="activeFootnote === 'purchase' || activeFootnote === 'all'">
+        <p><strong>¹ Car purchase price:</strong> $48,500 (Average between $48,401 - $48,641)</p>
+        <p class="source-link">
+          <a :href="carCostSources.purchaseSource" target="_blank">
+            Source: Spectrum Local News (September 2024)
+          </a>
+        </p>
+      </div>
+
+      <div class="footnote" v-if="activeFootnote === 'maintenance' || activeFootnote === 'all'">
+        <p><strong>² Car maintenance:</strong> $1,200 (Range: $583 - $1,623 per year, varies by brand)</p>
+        <p class="source-link">
+          <a :href="carCostSources.maintenanceSource" target="_blank">
+            Source: Consumer Affairs
+          </a>
+        </p>
+      </div>
+
+      <div class="footnote" v-if="activeFootnote === 'fuel' || activeFootnote === 'all'">
+        <p><strong>³ Fuel costs:</strong> $2,500 (Range: $500 - $8,250 per year, varies by vehicle)</p>
+        <p class="source-link">
+          <a :href="carCostSources.fuelSource" target="_blank">
+            Source: U.S. Department of Energy
+          </a>
+        </p>
+      </div>
+
+      <div class="footnote" v-if="activeFootnote === 'insurance' || activeFootnote === 'all'">
+        <p><strong>⁴ Insurance costs:</strong> $1,800 (Range: $631 - $2,685 per year, minimum to full coverage)</p>
+        <p class="source-link">
+          <a :href="carCostSources.insuranceSource" target="_blank">
+            Source: Forbes Advisor
+          </a>
+        </p>
+        <p class="source-link">
+          <a :href="carCostSources.insuranceSource2" target="_blank">
+            Additional Source: Bankrate
+          </a>
+        </p>
       </div>
     </div>
   </div>
@@ -439,7 +441,8 @@ function formatCurrency(value) {
 
 /* Bike Comparison Grid */
 .bike-comparison-grid {
-  margin: 2.5rem 0;
+  margin: 2.5rem 0 3.5rem 0;
+  position: relative;
 }
 
 .bike-comparison-grid h3 {
@@ -449,15 +452,83 @@ function formatCurrency(value) {
   font-size: 1.6rem;
 }
 
+@keyframes bounce-horizontal {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(-5px); }
+}
+
+.bike-options-scroll-container {
+  width: 100%;
+  overflow-x: auto;
+  padding: 0.5rem 0 40px 0;
+  margin-bottom: 0.5rem;
+
+  /* Custom scrollbar styling */
+  scrollbar-width: auto; /* Firefox */
+  scrollbar-color: vars.$primary vars.$lighter-gray; /* Firefox */
+  -ms-overflow-style: auto; /* IE and Edge */
+
+  /* Chrome, Safari, Opera scrollbar styling */
+  &::-webkit-scrollbar {
+    height: 32px;
+    background-color: vars.$lighter-gray;
+    border-radius: 16px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: vars.$primary;
+    border-radius: 16px;
+    border: 4px solid vars.$lighter-gray;
+    cursor: pointer;
+
+    &:hover {
+      background-color: vars.$primary-dark;
+    }
+  }
+
+  /* Hide scrollbar buttons/arrows */
+  &::-webkit-scrollbar-button {
+    display: none;
+  }
+
+  /* Visual indicators of scrollability */
+  position: relative;
+
+  &::before, &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 40px;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  &::before {
+    left: 0;
+    background: linear-gradient(to right, rgba(245, 245, 245, 0.9), rgba(245, 245, 245, 0));
+  }
+
+  &::after {
+    right: 0;
+    background: linear-gradient(to left, rgba(245, 245, 245, 0.9), rgba(245, 245, 245, 0));
+  }
+}
+
 .bike-options {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-wrap: nowrap;
   gap: 1.2rem;
+  padding: 0.5rem 1.5rem 0.5rem 1.5rem;
+  min-width: min-content;
+  /* Hack to make sure the container is always wide enough */
+  width: max-content;
+  position: relative;
 }
 
 .bike-option {
-  width: 180px;
+  width: 250px;
+  flex-shrink: 0;
   background-color: vars.$white;
   border-radius: vars.$border-radius;
   overflow: hidden;
@@ -488,13 +559,14 @@ function formatCurrency(value) {
 }
 
 .bike-option-image {
-  height: 120px;
   position: relative;
+  width: 100%;
+  height: auto;
 
   img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
+    display: block;
   }
 
   .electric-badge {
@@ -995,11 +1067,15 @@ function formatCurrency(value) {
   }
 
   .bike-option {
-    width: 140px;
+    width: 200px;
   }
 
-  .bike-option-image {
-    height: 90px;
+  .bike-options {
+    padding: 0.5rem 1rem;
+  }
+
+  .bike-option-details h4 {
+    font-size: 0.85rem;
   }
 
   .benefits-grid, .alternatives-grid {
