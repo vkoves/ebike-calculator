@@ -139,14 +139,14 @@ const bikeTypeDetails = reactive({
     priceRange: '$1,500 - $4,000'
   },
   'cargo-bike': {
-    title: 'Cargo Bicycle',
-    image: '/images/bikes/urban-arrow.jpg',
-    description: 'A cargo bike will address your carrying needs. These bikes are designed to handle loads while maintaining stability and ease of use.',
+    title: 'Non-Electric Cargo Bicycle',
+    image: 'https://www.londongreencycles.co.uk/wp-content/uploads/2015/11/cargolung-turquoise_5-Bakfiets.jpg',
+    description: 'A non-electric cargo bike will address your carrying needs. These bikes are designed to handle loads while maintaining stability and ease of use without requiring battery power.',
     features: [
-      'Built-in storage options',
-      'Stable frame design for carrying loads',
+      'Front cargo box for groceries and goods',
+      'Stable frame design for carrying heavy loads',
       'Can transport goods, groceries, or equipment',
-      'Options for front buckets or rear platforms'
+      'No battery to charge or maintain'
     ],
     priceRange: '$1,000 - $2,500'
   },
@@ -161,6 +161,18 @@ const bikeTypeDetails = reactive({
       'Can replace a car for most errands'
     ],
     priceRange: '$3,000 - $6,000'
+  },
+  'longtail-bike': {
+    title: 'Non-Electric Longtail Cargo Bicycle',
+    image: '/images/bikes/yuba-mundo.jpg',
+    description: 'A non-electric longtail cargo bike is perfect for transporting people and heavy loads. With your fitness level, you can handle this sturdy bike without electric assistance while still carrying passengers or cargo.',
+    features: [
+      'Extended rear deck for passengers or cargo',
+      'High weight capacity (up to 550 lbs)',
+      'Can carry up to 3-4 children or 2 adults',
+      'No battery charging required'
+    ],
+    priceRange: '$1,800 - $2,200'
   },
   'longtail-ebike': {
     title: 'Electric Longtail Cargo Bicycle',
@@ -185,10 +197,7 @@ const needsAssistance = computed(() => {
   // Determine if the user needs electric assistance
   return geography.value.windy ||
          geography.value.hilly ||
-         fitnessLevel.value === 'low' ||
-         transportationNeeds.value.cargo ||
-         transportationNeeds.value.transportingKids ||
-         transportationNeeds.value.transportingAdults;
+         fitnessLevel.value === 'low';
 });
 
 const needsCargo = computed(() => {
@@ -212,12 +221,16 @@ function prevStep() {
 
 function calculateRecommendation() {
   if (needsCargo.value) {
-    if (needsAssistance.value) {
-      if (transportationNeeds.value.transportingKids || transportationNeeds.value.transportingAdults) {
+    if (transportationNeeds.value.transportingKids || transportationNeeds.value.transportingAdults) {
+      // Longtail bike recommendation
+      if (needsAssistance.value) {
         recommendation.value = 'longtail-ebike';
       } else {
-        recommendation.value = 'cargo-ebike';
+        recommendation.value = 'longtail-bike';
       }
+    } else if (needsAssistance.value) {
+      // Regular cargo bike recommendation
+      recommendation.value = 'cargo-ebike';
     } else {
       recommendation.value = 'cargo-bike';
     }
@@ -228,7 +241,6 @@ function calculateRecommendation() {
       recommendation.value = 'regular-bike';
     }
   }
-
 
   // Set recommendation details
   setRecommendationDetails();

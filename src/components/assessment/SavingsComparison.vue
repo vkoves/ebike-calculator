@@ -2,19 +2,19 @@
   <div class="savings-section">
     <h2 class="savings-heading">Potential Savings vs. Car Ownership</h2>
     <p class="savings-intro">See how much you could save by choosing a bike instead of a new car</p>
-    
+
     <div class="compare-selector">
       <label for="compare-bike">Compare with another type of bike:</label>
-      <select 
-        id="compare-bike" 
+      <select
+        id="compare-bike"
         v-model="comparisonBike"
         @change="handleComparisonChange"
         :disabled="availableBikeTypes.length <= 1"
       >
         <option value="">Original Recommendation</option>
-        <option 
-          v-for="type in availableBikeTypes" 
-          :key="type.value" 
+        <option
+          v-for="type in availableBikeTypes"
+          :key="type.value"
           :value="type.value"
         >
           {{ type.label }}
@@ -67,19 +67,31 @@
         <div class="cost-breakdown">
           <div class="cost-item">
             <span class="cost-label">Initial Purchase</span>
-            <span class="cost-value">{{ formatCurrency(costs.car.purchase) }}</span>
+            <span class="cost-value">
+              {{ formatCurrency(costs.car.purchase) }}
+              <sup class="footnote-link" @click="showFootnote('purchase')">¹</sup>
+            </span>
           </div>
           <div class="cost-item">
             <span class="cost-label">Annual Maintenance</span>
-            <span class="cost-value">{{ formatCurrency(costs.car.maintenance) }}</span>
+            <span class="cost-value">
+              {{ formatCurrency(costs.car.maintenance) }}
+              <sup class="footnote-link" @click="showFootnote('maintenance')">²</sup>
+            </span>
           </div>
           <div class="cost-item">
             <span class="cost-label">Annual Fuel Cost</span>
-            <span class="cost-value">{{ formatCurrency(costs.car.fuel) }}</span>
+            <span class="cost-value">
+              {{ formatCurrency(costs.car.fuel) }}
+              <sup class="footnote-link" @click="showFootnote('fuel')">³</sup>
+            </span>
           </div>
           <div class="cost-item">
             <span class="cost-label">Annual Insurance</span>
-            <span class="cost-value">{{ formatCurrency(costs.car.insurance) }}</span>
+            <span class="cost-value">
+              {{ formatCurrency(costs.car.insurance) }}
+              <sup class="footnote-link" @click="showFootnote('insurance')">⁴</sup>
+            </span>
           </div>
           <div class="cost-item total">
             <span class="cost-label">5-Year Total Cost</span>
@@ -115,13 +127,63 @@
         </div>
       </div>
     </div>
-    
+
+    <!-- Footnotes Section -->
+    <div class="footnotes-section" v-if="showFootnotes">
+      <div class="footnote-header">
+        <h3>Sources</h3>
+        <button class="close-footnotes" @click="showFootnotes = false">×</button>
+      </div>
+      <div class="footnote-content">
+        <div class="footnote" v-if="activeFootnote === 'purchase' || activeFootnote === 'all'">
+          <p><strong>¹ Car purchase price:</strong> $48,500 (Average between $48,401 - $48,641)</p>
+          <p class="source-link">
+            <a :href="carCostSources.purchaseSource" target="_blank">
+              Source: Spectrum Local News (September 2024)
+            </a>
+          </p>
+        </div>
+
+        <div class="footnote" v-if="activeFootnote === 'maintenance' || activeFootnote === 'all'">
+          <p><strong>² Car maintenance:</strong> $1,200 (Range: $583 - $1,623 per year, varies by brand)</p>
+          <p class="source-link">
+            <a :href="carCostSources.maintenanceSource" target="_blank">
+              Source: Consumer Affairs
+            </a>
+          </p>
+        </div>
+
+        <div class="footnote" v-if="activeFootnote === 'fuel' || activeFootnote === 'all'">
+          <p><strong>³ Fuel costs:</strong> $2,500 (Range: $500 - $8,250 per year, varies by vehicle)</p>
+          <p class="source-link">
+            <a :href="carCostSources.fuelSource" target="_blank">
+              Source: U.S. Department of Energy
+            </a>
+          </p>
+        </div>
+
+        <div class="footnote" v-if="activeFootnote === 'insurance' || activeFootnote === 'all'">
+          <p><strong>⁴ Insurance costs:</strong> $1,800 (Range: $631 - $2,685 per year, minimum to full coverage)</p>
+          <p class="source-link">
+            <a :href="carCostSources.insuranceSource" target="_blank">
+              Source: Forbes Advisor
+            </a>
+          </p>
+          <p class="source-link">
+            <a :href="carCostSources.insuranceSource2" target="_blank">
+              Additional Source: Bankrate
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+
     <!-- FAQ Section -->
     <div class="faq-section">
       <h3>What if I need a car sometimes? 🤔</h3>
       <div class="faq-content">
         <p>Even with a bike as your primary transportation, you'll occasionally need a car for certain trips. Here are cost-effective alternatives to car ownership:</p>
-        
+
         <div class="alternatives-grid">
           <div class="alternative-card">
             <div class="alternative-icon">🚗</div>
@@ -131,7 +193,7 @@
               <strong>10 rentals/year:</strong> $300-450
             </div>
           </div>
-          
+
           <div class="alternative-card">
             <div class="alternative-icon">🚕</div>
             <h4>Ride Share</h4>
@@ -140,7 +202,7 @@
               <strong>20 rides/year:</strong> $400-600
             </div>
           </div>
-          
+
           <div class="alternative-card">
             <div class="alternative-icon">🛻</div>
             <h4>Truck/Van Rental</h4>
@@ -150,16 +212,16 @@
             </div>
           </div>
         </div>
-        
+
         <div class="total-comparison">
           <p v-if="adjustedSavings > 0">
-            Even if you spend <strong>$1,000/year</strong> on occasional rentals and ride-shares, that's still 
-            <span class="highlight-amount"><strong>{{ formatCurrency(adjustedSavings) }}</strong></span> 
+            Even if you spend <strong>$1,000/year</strong> on occasional rentals and ride-shares, that's still
+            <span class="highlight-amount"><strong>{{ formatCurrency(adjustedSavings) }}</strong></span>
             less than the 5-year cost of car ownership!
           </p>
           <p v-else>
-            When you factor in <strong>$1,000/year</strong> for occasional rentals and ride-shares, you're still 
-            <span class="highlight-amount"><strong>coming out ahead</strong></span> 
+            When you factor in <strong>$1,000/year</strong> for occasional rentals and ride-shares, you're still
+            <span class="highlight-amount"><strong>coming out ahead</strong></span>
             compared to full car ownership, while gaining health benefits and reducing environmental impact!
           </p>
         </div>
@@ -170,6 +232,7 @@
 
 <script setup>
 import { computed, ref, watch } from 'vue';
+import { CAR_COSTS } from '../../constants/bikeCosts';
 
 const props = defineProps({
   bikeTitle: {
@@ -202,12 +265,16 @@ const props = defineProps({
         label: 'Electric Commuter Bike'
       },
       'cargo-bike': {
-        title: 'Cargo Bicycle',
-        label: 'Cargo Bike'
+        title: 'Non-Electric Cargo Bicycle',
+        label: 'Non-Electric Cargo Bike'
       },
       'cargo-ebike': {
         title: 'Electric Cargo Bicycle (Bucket Style)',
         label: 'Electric Cargo Bike'
+      },
+      'longtail-bike': {
+        title: 'Non-Electric Longtail Cargo Bicycle',
+        label: 'Non-Electric Longtail Bike'
       },
       'longtail-ebike': {
         title: 'Electric Longtail Cargo Bicycle',
@@ -219,10 +286,22 @@ const props = defineProps({
 
 const emit = defineEmits(['bike-change']);
 
+// Sources for car costs from constants
+const carCostSources = {
+  purchaseSource: CAR_COSTS.purchaseSource,
+  maintenanceSource: CAR_COSTS.maintenanceSource,
+  fuelSource: CAR_COSTS.fuelSource,
+  insuranceSource: CAR_COSTS.insuranceSource,
+  insuranceSource2: CAR_COSTS.insuranceSource2
+};
+
 // State for comparison dropdown
 const comparisonBike = ref('');
 // Debug flag
 const debug = ref(false);
+// Footnotes state
+const showFootnotes = ref(false);
+const activeFootnote = ref('all');
 
 // Track if we're comparing bikes
 const isComparing = computed(() => comparisonBike.value !== '');
@@ -257,7 +336,7 @@ const savingsAmount = computed(() => {
 // Calculate savings after accounting for alternative transportation costs
 const adjustedSavings = computed(() => {
   // Assume $1000/year for alternative transportation (5 years total)
-  const alternativeTransportCost = 5000; 
+  const alternativeTransportCost = 5000;
   // Calculate savings after alternative costs
   const netSavings = savingsAmount.value - alternativeTransportCost;
   // Make sure the value is never negative
@@ -272,21 +351,21 @@ const recommendationType = computed(() => {
   if (props.selectedBikeType) {
     return props.selectedBikeType;
   }
-  
+
   // Otherwise, try to find it by matching the title
   for (const [key, details] of Object.entries(props.allBikeTypes)) {
     if (details.title === props.bikeTitle) {
       return key;
     }
   }
-  
+
   return '';
 });
 
 // Generate list of available bike types for comparison
 const availableBikeTypes = computed(() => {
   const currentType = recommendationType.value;
-  
+
   return Object.entries(props.allBikeTypes)
     .filter(([key]) => key !== currentType)
     .map(([key, value]) => ({
@@ -299,17 +378,23 @@ const availableBikeTypes = computed(() => {
 function handleComparisonChange() {
   // Store the selected value in case it gets reset
   const selectedValue = comparisonBike.value;
-  
-  
+
+
   // Emit the bike change event to the parent component
   emit('bike-change', selectedValue);
-  
+
   // Ensure the selection is maintained (in case it gets reset by reactivity)
   setTimeout(() => {
     if (comparisonBike.value !== selectedValue) {
       comparisonBike.value = selectedValue;
     }
   }, 0);
+}
+
+// Footnote handler
+function showFootnote(type) {
+  activeFootnote.value = type;
+  showFootnotes.value = true;
 }
 
 // Currency formatting helper
@@ -376,7 +461,7 @@ function formatCurrency(value) {
   cursor: pointer;
   width: 100%;
   max-width: 400px;
-  text-align: center;
+  text-align: left;
   outline: none;
   appearance: none;
   background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%232c8a57%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
@@ -384,17 +469,17 @@ function formatCurrency(value) {
   background-position: right 1rem top 50%;
   background-size: 0.65rem auto;
   transition: all 0.2s ease;
-  
+
   &:hover {
     border-color: vars.$primary-dark;
     box-shadow: vars.$shadow-button;
   }
-  
+
   &:focus {
     border-color: vars.$primary-dark;
     box-shadow: 0 0 0 3px rgba(44, 138, 87, 0.2);
   }
-  
+
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;
@@ -434,7 +519,7 @@ function formatCurrency(value) {
   padding: 1rem;
   text-align: center;
   border-bottom: 1px solid vars.$border-lighter;
-  
+
   img {
     width: 150px;
     height: 100px;
@@ -444,7 +529,7 @@ function formatCurrency(value) {
     box-shadow: vars.$shadow-image;
     transition: all 0.3s ease;
   }
-  
+
   h4 {
     color: vars.$dark;
     font-size: 1.2rem;
@@ -465,7 +550,7 @@ function formatCurrency(value) {
   margin-bottom: 1rem;
   padding-bottom: 0.5rem;
   border-bottom: 1px solid vars.$border-lighter;
-  
+
   &.total {
     font-weight: bold;
     font-size: 1.1rem;
@@ -554,11 +639,11 @@ function formatCurrency(value) {
   flex: 1;
   min-width: 250px;
   text-align: center;
-  
+
   h3 {
     margin-bottom: 1rem;
   }
-  
+
   .amount {
     font-size: 2.5rem;
     font-weight: bold;
@@ -569,7 +654,7 @@ function formatCurrency(value) {
 .savings-benefits {
   flex: 2;
   min-width: 250px;
-  
+
   h4 {
     color: vars.$dark;
     margin-bottom: 1rem;
@@ -590,18 +675,18 @@ function formatCurrency(value) {
   text-align: center;
   box-shadow: vars.$shadow-md;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  
+
   &:hover {
     transform: translateY(-5px);
     box-shadow: vars.$shadow-lg;
   }
-  
+
   h5 {
     color: vars.$primary;
     font-size: 1.1rem;
     margin-bottom: 0.5rem;
   }
-  
+
   p {
     color: vars.$dark;
     font-size: 0.95rem;
@@ -621,7 +706,7 @@ function formatCurrency(value) {
   padding: 2rem;
   margin: 2rem 0;
   box-shadow: vars.$shadow-sm;
-  
+
   h3 {
     color: vars.$primary;
     text-align: center;
@@ -656,18 +741,18 @@ function formatCurrency(value) {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
-  
+
   &:hover {
     transform: translateY(-5px);
     box-shadow: vars.$shadow-lg;
   }
-  
+
   h4 {
     color: vars.$dark;
     margin-bottom: 0.75rem;
     font-size: 1.25rem;
   }
-  
+
   p {
     color: vars.$gray;
     font-size: 0.95rem;
@@ -700,14 +785,14 @@ function formatCurrency(value) {
   position: relative;
   overflow: hidden;
   animation: pulse 2s infinite;
-  
+
   p {
     margin-bottom: 0;
     font-size: 1.2rem;
     color: vars.$white;
     line-height: 1.6;
   }
-  
+
   strong {
     color: vars.$white;
     font-weight: 700;
@@ -733,7 +818,7 @@ function formatCurrency(value) {
   display: block;
   margin: 0.5rem 0;
   font-size: 1.4rem;
-  
+
   strong {
     background-color: rgba(255, 255, 255, vars.$opacity-medium);
     padding: 0.3rem 0.7rem;
@@ -753,19 +838,121 @@ function formatCurrency(value) {
   }
 }
 
+/* Footnotes styling */
+.footnote-link {
+  font-size: 0.7rem;
+  color: vars.$primary;
+  cursor: pointer;
+  font-weight: bold;
+  border: 1px solid vars.$primary-lighter;
+  border-radius: 50%;
+  padding: 0 4px;
+  margin-left: 3px;
+
+  &:hover {
+    background-color: vars.$primary-lighter;
+    color: vars.$primary-dark;
+  }
+}
+
+.footnotes-section {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: vars.$white;
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  z-index: 100;
+  max-height: 80vh;
+  overflow-y: auto;
+  border-top: 3px solid vars.$primary;
+  animation: slideUp 0.3s ease-in-out;
+}
+
+.footnote-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+
+  h3 {
+    color: vars.$primary;
+    margin: 0;
+  }
+
+  .close-footnotes {
+    background-color: vars.$light-gray;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    color: vars.$gray;
+
+    &:hover {
+      background-color: vars.$lighter-gray;
+      color: vars.$dark;
+    }
+  }
+}
+
+.footnote-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.footnote {
+  background-color: vars.$lightest-gray;
+  padding: 1rem;
+  border-radius: vars.$border-radius;
+  border-left: 3px solid vars.$primary-lighter;
+
+  p {
+    margin: 0.5rem 0;
+    color: vars.$dark;
+    text-align: left;
+  }
+
+  .source-link {
+    font-size: 0.85rem;
+
+    a {
+      color: vars.$primary;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
 @media (max-width: 600px) {
   .savings-heading {
     font-size: 1.8rem;
   }
-  
+
   .compare-selector {
     padding: 0.75rem;
-    
+
     label {
       font-size: 1rem;
       text-align: center;
     }
-    
+
     select {
       padding: 0.6rem 1rem;
       font-size: 0.9rem;
@@ -787,27 +974,35 @@ function formatCurrency(value) {
   .benefit-card {
     padding: 1.25rem;
   }
-  
+
   .savings-highlight {
     padding: 1.5rem;
   }
-  
+
   .faq-section h3 {
     font-size: 1.5rem;
   }
-  
+
   .total-comparison {
     padding: 1.5rem 1rem;
     margin-top: 1rem;
-    
+
     p {
       font-size: 1.05rem;
     }
-    
+
     strong {
       display: inline-block;
       margin: 0.25rem 0;
     }
+  }
+
+  .footnotes-section {
+    padding: 1rem;
+  }
+
+  .footnote {
+    padding: 0.75rem;
   }
 }
 </style>
