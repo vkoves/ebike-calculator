@@ -82,7 +82,7 @@
 
     <div class="savings-highlight">
       <div class="savings-number">
-        <h3>Your 5-Year Savings:</h3>
+        <h3>Your 5-Year Savings</h3>
         <div class="amount">{{ formatCurrency(savingsAmount) }}</div>
       </div>
       <div class="savings-benefits">
@@ -119,7 +119,8 @@
             <h4>Car Sharing</h4>
             <p>Services like Zipcar or Getaround offer hourly rentals (~$10-15/hour) for quick errands.</p>
             <div class="alternative-savings">
-              <strong>10 rentals/year:</strong> $300-450
+              <strong>10 rentals/year:</strong> <br>
+              $300 - $450
             </div>
           </div>
 
@@ -128,7 +129,8 @@
             <h4>Ride Share</h4>
             <p>Uber, Lyft or taxis are perfect for evenings out or airport trips.</p>
             <div class="alternative-savings">
-              <strong>20 rides/year:</strong> $400-600
+              <strong>20 rides/year:</strong> <br>
+              $400 - $600
             </div>
           </div>
 
@@ -137,7 +139,8 @@
             <h4>Truck/Van Rental</h4>
             <p>Home Depot, U-Haul or similar for large purchases and moves.</p>
             <div class="alternative-savings">
-              <strong>3 rentals/year:</strong> $150-300
+              <strong>3 rentals/year:</strong> <br>
+              $150 - $300
             </div>
           </div>
         </div>
@@ -737,34 +740,96 @@ function formatCurrency(value) {
 }
 
 .savings-highlight {
-  display: flex;
-  flex-direction: column;
   text-align: center;
   background-color: vars.$bg-highlight;
   border-radius: vars.$border-radius;
-  padding: 2rem;
+  padding: 2.5rem 2rem;
   display: flex;
+  flex-direction: column; // makes the savings on its own line
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  gap: 2rem;
+  gap: 2.5rem;
   margin-top: 2rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+
+  /* Add subtle pattern background */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+    opacity: 0.7;
+    z-index: 0;
+    pointer-events: none;
+  }
 }
 
 .savings-number {
   flex: 1;
-  min-width: 250px;
+  min-width: 300px;
   text-align: center;
+  position: relative;
+  z-index: 1;
 
   h3 {
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    color: vars.$primary-dark;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
   }
 
   .amount {
-    font-size: 2.5rem;
-    font-weight: bold;
+    font-size: 3.5rem;
+    font-weight: 800;
     color: vars.$primary-light;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+    background: linear-gradient(to right, vars.$primary-dark, vars.$primary-light);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    position: relative;
+
+    /* Subtle pulsing animation */
+    animation: pulse-savings 3s infinite;
+
+    /* Add decorative elements */
+    &::before, &::after {
+      content: '';
+      position: absolute;
+      background-color: vars.$primary-lighter;
+      border-radius: 50%;
+      opacity: 0.3;
+      z-index: -1;
+    }
+
+    &::before {
+      width: 40px;
+      height: 40px;
+      left: -20px;
+      top: -10px;
+    }
+
+    &::after {
+      width: 60px;
+      height: 60px;
+      right: -30px;
+      bottom: -20px;
+    }
   }
+}
+
+@keyframes pulse-savings {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
 }
 
 .savings-benefits {
