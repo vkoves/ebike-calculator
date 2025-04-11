@@ -63,7 +63,8 @@
 </template>
 
 <script setup>
-import { ref, computed, reactive, watch } from 'vue';
+import { ref, computed, reactive, watch, onMounted } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 import TransportationNeedsStep from './TransportationNeedsStep.vue';
 import GeographyStep from './GeographyStep.vue';
 import FitnessStep from './FitnessStep.vue';
@@ -71,6 +72,10 @@ import BikeRecommendation from './BikeRecommendation.vue';
 import SavingsComparison from './SavingsComparison.vue';
 import ResultsFooter from './ResultsFooter.vue';
 import { BIKE_COSTS, CAR_COSTS } from '../../constants/bikeCosts';
+
+// Router setup
+const router = useRouter();
+const route = useRoute();
 
 // State
 const currentStep = ref(1);
@@ -95,6 +100,7 @@ watch(transportationNeeds, () => {}, { deep: true });
 watch(geography, () => {}, { deep: true });
 const recommendation = ref('');
 const recommendationDetails = ref({});
+
 
 // Cost comparison data
 const costs = reactive({
@@ -140,7 +146,7 @@ const bikeTypeDetails = reactive({
   },
   'cargo-bike': {
     title: 'Non-Electric Cargo Bicycle',
-    image: 'https://www.londongreencycles.co.uk/wp-content/uploads/2015/11/cargolung-turquoise_5-Bakfiets.jpg',
+    image: '/images/bikes/bakfiets-classic-long.jpg',
     description: 'A non-electric cargo bike will address your carrying needs. These bikes are designed to handle loads while maintaining stability and ease of use without requiring battery power.',
     features: [
       'Front cargo box for groceries and goods',
@@ -248,6 +254,9 @@ function calculateRecommendation() {
   // Update purchase cost based on the recommendation
   updateBikeCosts(recommendation.value);
 
+  // Update URL with query parameter
+  updateUrlWithRecommendation(recommendation.value);
+
   // Move to results page
   nextStep();
 }
@@ -277,12 +286,28 @@ function handleBikeChange(bikeType) {
     // Restore original bike costs and details for the recommended bike
     updateBikeCosts(recommendation.value);
     recommendationDetails.value = bikeTypeDetails[recommendation.value];
+    
+    // Update URL to show the original recommendation
+    updateUrlWithRecommendation(recommendation.value);
     return;
   }
 
   // Update costs and details based on selected bike type
   updateBikeCosts(bikeType);
   recommendationDetails.value = {...bikeTypeDetails[bikeType]};
+  
+  // Update URL with the new bike selection
+  updateUrlWithRecommendation(bikeType);
+}
+
+// Function to update URL with bike recommendation
+function updateUrlWithRecommendation(bikeType) {
+  router.replace({ 
+    query: { 
+      ...route.query,
+      bike: bikeType 
+    }
+  });
 }
 
 function restartAssessment() {
@@ -306,7 +331,26 @@ function restartAssessment() {
   fitnessLevel.value = 'medium';
   recommendation.value = '';
 
+  // Remove bike query parameter
+  router.replace({ 
+    query: {} 
+  });
 }
+
+// Initialize based on URL parameter (need to be after all functions are defined)
+onMounted(() => {
+  if (route.query.bike && Object.keys(bikeTypeDetails).includes(route.query.bike)) {
+    // Set to the last step (results)
+    currentStep.value = 4;
+    
+    // Set recommendation from URL
+    recommendation.value = route.query.bike;
+    
+    // Update the UI
+    setRecommendationDetails();
+    updateBikeCosts(recommendation.value);
+  }
+});
 </script>
 
 <style lang="scss" scoped>

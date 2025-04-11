@@ -3,27 +3,6 @@
     <h2 class="savings-heading">Potential Savings vs. Car Ownership</h2>
     <p class="savings-intro">See how much you could save by choosing a bike instead of a new car</p>
 
-    <div class="compare-selector">
-      <label for="compare-bike">Compare with another type of bike:</label>
-      <select
-        id="compare-bike"
-        v-model="comparisonBike"
-        @change="handleComparisonChange"
-        :disabled="availableBikeTypes.length <= 1"
-      >
-        <option value="">Original Recommendation</option>
-        <option
-          v-for="type in availableBikeTypes"
-          :key="type.value"
-          :value="type.value"
-        >
-          {{ type.label }}
-        </option>
-      </select>
-      <div v-if="debug" class="debug-info">
-        Selected value: "{{ comparisonBike }}"
-      </div>
-    </div>
 
     <div class="comparison-container">
       <div class="comparison-item bike" :class="{ 'comparing': isComparing }">
@@ -96,6 +75,39 @@
           <div class="cost-item total">
             <span class="cost-label">5-Year Total Cost</span>
             <span class="cost-value">{{ formatCurrency(carTotalCost) }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bike comparison grid -->
+    <div class="bike-comparison-grid">
+      <h3>Compare with other bikes</h3>
+      <div class="bike-options">
+        <div class="bike-option"
+             v-for="type in availableBikeTypes"
+             :key="type.value"
+             @click="handleComparisonChange(type.value)"
+             :class="{ 'active': comparisonBike === type.value }">
+          <div class="bike-option-image">
+            <img :src="allBikeTypes[type.value].image" :alt="type.label">
+            <div v-if="type.value.includes('ebike')" class="electric-badge">Electric</div>
+          </div>
+          <div class="bike-option-details">
+            <h4>{{ type.label }}</h4>
+            <div class="bike-price">{{ formatCurrency(BIKE_COSTS[type.value].purchase) }}</div>
+          </div>
+        </div>
+        <div class="bike-option original-option"
+             @click="handleComparisonChange('')"
+             :class="{ 'active': comparisonBike === '' }">
+          <div class="bike-option-image">
+            <img :src="bikeImage" :alt="bikeTitle">
+            <div v-if="selectedBikeType && selectedBikeType.includes('ebike')" class="electric-badge">Electric</div>
+          </div>
+          <div class="bike-option-details">
+            <h4>Your Recommendation</h4>
+            <div class="bike-price">{{ formatCurrency(costs.bike.purchase) }}</div>
           </div>
         </div>
       </div>
@@ -232,7 +244,7 @@
 
 <script setup>
 import { computed, ref, watch } from 'vue';
-import { CAR_COSTS } from '../../constants/bikeCosts';
+import { CAR_COSTS, BIKE_COSTS } from '../../constants/bikeCosts';
 
 const props = defineProps({
   bikeTitle: {
@@ -374,21 +386,13 @@ const availableBikeTypes = computed(() => {
     }));
 });
 
-// Handle bike type change from dropdown
-function handleComparisonChange() {
-  // Store the selected value in case it gets reset
-  const selectedValue = comparisonBike.value;
-
+// Handle bike type change from buttons
+function handleComparisonChange(bikeType) {
+  // Set the selected bike
+  comparisonBike.value = bikeType;
 
   // Emit the bike change event to the parent component
-  emit('bike-change', selectedValue);
-
-  // Ensure the selection is maintained (in case it gets reset by reactivity)
-  setTimeout(() => {
-    if (comparisonBike.value !== selectedValue) {
-      comparisonBike.value = selectedValue;
-    }
-  }, 0);
+  emit('bike-change', bikeType);
 }
 
 // Footnote handler
@@ -433,57 +437,97 @@ function formatCurrency(value) {
   text-align: center;
 }
 
-.compare-selector {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 2rem;
-  background-color: vars.$primary-lighter;
-  padding: 1rem;
-  border-radius: vars.$border-radius;
-  border: 1px dashed vars.$primary;
+/* Bike Comparison Grid */
+.bike-comparison-grid {
+  margin: 2.5rem 0;
 }
 
-.compare-selector label {
-  font-weight: 600;
+.bike-comparison-grid h3 {
+  text-align: center;
   color: vars.$primary;
-  margin-bottom: 0.75rem;
-  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  font-size: 1.6rem;
 }
 
-.compare-selector select {
-  padding: 0.75rem 1.5rem;
-  border-radius: vars.$border-radius-lg;
-  border: 1px solid vars.$primary;
+.bike-options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.2rem;
+}
+
+.bike-option {
+  width: 180px;
   background-color: vars.$white;
-  font-size: 1rem;
-  color: vars.$text-body;
+  border-radius: vars.$border-radius;
+  overflow: hidden;
+  box-shadow: vars.$shadow-md;
+  transition: all 0.3s ease;
   cursor: pointer;
-  width: 100%;
-  max-width: 400px;
-  text-align: left;
-  outline: none;
-  appearance: none;
-  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%232c8a57%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
-  background-repeat: no-repeat;
-  background-position: right 1rem top 50%;
-  background-size: 0.65rem auto;
-  transition: all 0.2s ease;
+  position: relative;
+  border: 2px solid transparent;
 
   &:hover {
-    border-color: vars.$primary-dark;
-    box-shadow: vars.$shadow-button;
+    transform: translateY(-5px);
+    box-shadow: vars.$shadow-lg;
   }
 
-  &:focus {
-    border-color: vars.$primary-dark;
-    box-shadow: 0 0 0 3px rgba(44, 138, 87, 0.2);
+  &.active {
+    border-color: vars.$primary;
+    box-shadow: 0 0 0 4px rgba(44, 138, 87, 0.2);
   }
 
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    border-color: vars.$bg-disabled;
+  &.original-option {
+    border-color: vars.$secondary;
+
+    &.active {
+      border-color: vars.$secondary;
+      box-shadow: 0 0 0 4px rgba(255, 149, 0, 0.2);
+    }
+  }
+}
+
+.bike-option-image {
+  height: 120px;
+  position: relative;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .electric-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background-color: #3498db;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 3px 8px;
+    border-radius: 12px;
+    z-index: 1;
+  }
+}
+
+.bike-option-details {
+  padding: 0.75rem;
+  text-align: center;
+
+  h4 {
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+    color: vars.$dark;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .bike-price {
+    font-weight: bold;
+    color: vars.$primary;
+    font-size: 1rem;
   }
 }
 
@@ -945,18 +989,17 @@ function formatCurrency(value) {
     font-size: 1.8rem;
   }
 
-  .compare-selector {
-    padding: 0.75rem;
+  .bike-comparison-grid h3 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+  }
 
-    label {
-      font-size: 1rem;
-      text-align: center;
-    }
+  .bike-option {
+    width: 140px;
+  }
 
-    select {
-      padding: 0.6rem 1rem;
-      font-size: 0.9rem;
-    }
+  .bike-option-image {
+    height: 90px;
   }
 
   .benefits-grid, .alternatives-grid {
