@@ -70,6 +70,7 @@ import FitnessStep from './FitnessStep.vue';
 import BikeRecommendation from './BikeRecommendation.vue';
 import SavingsComparison from './SavingsComparison.vue';
 import ResultsFooter from './ResultsFooter.vue';
+import { BIKE_COSTS, CAR_COSTS } from '../../constants/bikeCosts';
 
 // State
 const currentStep = ref(1);
@@ -99,15 +100,15 @@ const recommendationDetails = ref({});
 const costs = reactive({
   bike: {
     purchase: 0,
-    maintenance: 150,
-    fuel: 0,
-    insurance: 0
+    maintenance: BIKE_COSTS.default.maintenance,
+    fuel: BIKE_COSTS.default.fuel,
+    insurance: BIKE_COSTS.default.insurance
   },
   car: {
-    purchase: 35000,
-    maintenance: 1200,
-    fuel: 2500,
-    insurance: 1800
+    purchase: CAR_COSTS.purchase,
+    maintenance: CAR_COSTS.maintenance,
+    fuel: CAR_COSTS.fuel,
+    insurance: CAR_COSTS.insurance
   }
 });
 
@@ -243,45 +244,14 @@ function updateBikeCosts(bikeType = null) {
   // Use the passed bike type or the current recommendation
   const typeToUse = bikeType || recommendation.value;
 
-  // Set bike purchase cost based on bike type
-  switch(typeToUse) {
-    case 'regular-bike':
-      costs.bike.purchase = 800;
-      costs.bike.maintenance = 150;
-      costs.bike.fuel = 0;
-      costs.bike.insurance = 0;
-      break;
-    case 'commuter-ebike':
-      costs.bike.purchase = 2500;
-      costs.bike.maintenance = 250;
-      costs.bike.fuel = 50; // Electricity cost
-      costs.bike.insurance = 100;
-      break;
-    case 'cargo-bike':
-      costs.bike.purchase = 1800;
-      costs.bike.maintenance = 200;
-      costs.bike.fuel = 0;
-      costs.bike.insurance = 100;
-      break;
-    case 'cargo-ebike':
-      costs.bike.purchase = 4500;
-      costs.bike.maintenance = 350;
-      costs.bike.fuel = 75;
-      costs.bike.insurance = 150;
-      break;
-    case 'longtail-ebike':
-      costs.bike.purchase = 5000;
-      costs.bike.maintenance = 400;
-      costs.bike.fuel = 100;
-      costs.bike.insurance = 200;
-      break;
-    default:
-      costs.bike.purchase = 1000;
-      costs.bike.maintenance = 150;
-      costs.bike.fuel = 0;
-      costs.bike.insurance = 0;
-  }
+  // Get bike costs from constants
+  const bikeCost = BIKE_COSTS[typeToUse] || BIKE_COSTS.default;
 
+  // Update all cost values at once
+  costs.bike.purchase = bikeCost.purchase;
+  costs.bike.maintenance = bikeCost.maintenance;
+  costs.bike.fuel = bikeCost.fuel;
+  costs.bike.insurance = bikeCost.insurance;
 }
 
 function setRecommendationDetails() {
