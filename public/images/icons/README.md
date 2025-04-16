@@ -1,6 +1,6 @@
 # Icons Directory
 
-This directory contains all icons and small graphical elements used in the EBike Calculator application.
+This directory contains all icons and small graphical elements used in the app.
 
 ## Icon Guidelines
 

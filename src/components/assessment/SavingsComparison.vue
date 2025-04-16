@@ -170,7 +170,7 @@
                :class="{ 'active': comparisonBike === '' }">
             <div class="bike-option-image">
               <img :src="bikeImage" :alt="bikeTitle">
-              <div v-if="selectedBikeType && selectedBikeType.includes('ebike')" class="electric-badge">Electric</div>
+              <div v-if="selectedBikeType && selectedBikeType.includes('ebike')" class="electric-badge">⚡ Electric</div>
             </div>
             <div class="bike-option-details">
               <h4>Your Recommendation</h4>
@@ -184,7 +184,7 @@
                :class="{ 'active': comparisonBike === type.value }">
             <div class="bike-option-image">
               <img :src="allBikeTypes[type.value].image" :alt="type.label">
-              <div v-if="type.value.includes('ebike')" class="electric-badge">Electric</div>
+              <div v-if="type.value.includes('ebike')" class="electric-badge">⚡ Electric</div>
             </div>
             <div class="bike-option-details">
               <h4>{{ type.label }}</h4>
@@ -506,16 +506,6 @@ function formatCurrency(value) {
     pointer-events: none;
     z-index: 1;
   }
-
-  &::before {
-    left: 0;
-    background: linear-gradient(to right, rgba(245, 245, 245, 0.9), rgba(245, 245, 245, 0));
-  }
-
-  &::after {
-    right: 0;
-    background: linear-gradient(to left, rgba(245, 245, 245, 0.9), rgba(245, 245, 245, 0));
-  }
 }
 
 .bike-options {
@@ -576,8 +566,8 @@ function formatCurrency(value) {
     position: absolute;
     top: 8px;
     right: 8px;
-    background-color: #3498db;
-    color: white;
+    background-color: vars.$secondary;
+    color: vars.$white;
     font-size: 0.7rem;
     font-weight: bold;
     padding: 3px 8px;

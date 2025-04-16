@@ -1,10 +1,28 @@
 <template>
   <div class="about-container">
-    <h1>About EBike Calculator</h1>
+    <h1>About The Right Bike</h1>
 
-    <section class="about-section">
-      <h2>Our Mission</h2>
-      <p>At EBike Calculator, we're passionate about helping people discover the benefits of cycling as a sustainable, healthy, and cost-effective transportation alternative. Our mission is to provide tools and information that make it easy for anyone to evaluate whether a bicycle could replace some or all of their car trips.</p>
+    <section class="about-section -two-cols">
+      <div>
+        <h2>Our Mission</h2>
+        <p>
+          At The Right Bike, we're passionate about helping people discover the benefits of cycling
+          as a sustainable, healthy, and cost-effective transportation alternative. Our mission is to
+          provide tools and information that make it easy for anyone to evaluate whether a bicycle
+          could replace some or all of their car trips.
+        </p>
+      </div>
+
+      <div class="viktor-bio">
+        <img src="https://viktorkoves.com/images/headshot-bike.webp" width="200"
+          alt="Photo of Viktor Köves on his White Gazelle ebike, riding down Chicago's Lakefront trail
+            past a tennis court, wearing shorts, a t-shirt and sunglasses">
+        <p>
+          The Right Bike is created by Viktor Köves, who also created
+          <a href="https://chiwho.bike">Chicagoans Who Bike</a>, a multi-media project interviewing
+          people who bike around Chicago.
+        </p>
+      </div>
     </section>
 
     <section class="about-section">
@@ -30,26 +48,9 @@
     </section>
 
     <section class="about-section">
-      <h2>Types of Bikes We Consider</h2>
-      <div class="bike-types">
-        <div class="bike-type">
-          <h3>Conventional Bicycles</h3>
-          <p>Traditional bikes powered entirely by human effort - efficient, low-cost, and perfect for shorter trips and flat terrain.</p>
-        </div>
-        <div class="bike-type">
-          <h3>Electric Bicycles</h3>
-          <p>Bikes with electric motor assistance that make longer commutes, hills, and cargo transport more accessible to more people.</p>
-        </div>
-        <div class="bike-type">
-          <h3>Cargo Bikes</h3>
-          <p>Specialized bikes designed to carry heavier loads, children, groceries, and other items that might otherwise require a car.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="about-section">
       <h2>How Our Calculator Works</h2>
       <p>Our calculator takes into account your specific transportation needs, local conditions, and personal preferences to help you understand:</p>
+
       <ul>
         <li>Which trips you currently make by car could reasonably be replaced by bicycle</li>
         <li>What type of bicycle might best suit your needs</li>
@@ -61,7 +62,11 @@
 
     <section class="about-section contact">
       <h2>Contact Us</h2>
-      <p>Have questions or feedback? We'd love to hear from you! <a href="https://github.com/vkoves/ebike-calculator/issues" target="_blank" rel="noopener noreferrer">Create an issue on GitHub</a>.</p>
+
+      <p>
+        Have questions or feedback? We'd love to hear from you!
+        <a href="https://github.com/vkoves/the-right-bike/issues" target="_blank" rel="noopener noreferrer">Create an issue on GitHub</a>.
+      </p>
     </section>
   </div>
 </template>
@@ -78,12 +83,33 @@
 
 h1 {
   color: vars.$primary;
-  text-align: center;
   margin-bottom: 2rem;
 }
 
 .about-section {
   margin-bottom: 3rem;
+
+  &.-two-cols {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .viktor-bio {
+    flex-basis: 35rem;
+    flex-shrink: 0;
+    background-color: vars.$lighter-gray;
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+    gap: 2rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+
+    img {
+      border-radius: 0.5rem;
+    }
+    p { max-width: 20rem; }
+  }
 }
 
 h2 {
@@ -158,6 +184,10 @@ li {
 }
 
 @media (max-width: 768px) {
+  .two-col {
+    flex-direction: column;
+  }
+
   .benefits-grid {
     grid-template-columns: 1fr;
   }

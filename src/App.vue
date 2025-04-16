@@ -5,7 +5,10 @@
       <router-view />
     </main>
     <footer>
-      <p>© 2025 - Viktor Köves | <a href="https://github.com/vkoves/ebike-calculator" target="_blank" rel="noopener noreferrer">View On GitHub</a></p>
+      <p>
+        © 2025 - <a href="https://viktorkoves.com">Viktor Köves</a>
+        | <a href="https://github.com/vkoves/the-right-bike" target="_blank" rel="noopener noreferrer">View On GitHub</a>
+      </p>
     </footer>
   </div>
 </template>

@@ -199,9 +199,18 @@ const progressPercent = computed(() => {
   return ((currentStep.value - 1) / 3) * 100;
 });
 
+// Determine if the user needs electric assistance - this basically means they are pulling a lot
+// (e.g. kids, adults, cargo) and are medium or below fitness, or it's windy or hilly
 const needsAssistance = computed(() => {
-  // Determine if the user needs electric assistance
-  return geography.value.windy ||
+  // For high fitness, only return needs assistance if transporting adults
+  if (fitnessLevel.value === 'high') {
+    return transportationNeeds.value.transportingAdults;
+  }
+
+  // Any high load is an issue if you're not very strong, suggest e-assist. They can always opt
+  // for a cheaper option
+  return (needsCargo.value && fitnessLevel.value !== 'high') ||
+         geography.value.windy ||
          geography.value.hilly ||
          fitnessLevel.value === 'low';
 });
@@ -286,7 +295,7 @@ function handleBikeChange(bikeType) {
     // Restore original bike costs and details for the recommended bike
     updateBikeCosts(recommendation.value);
     recommendationDetails.value = bikeTypeDetails[recommendation.value];
-    
+
     // Update URL to show the original recommendation
     updateUrlWithRecommendation(recommendation.value);
     return;
@@ -295,17 +304,17 @@ function handleBikeChange(bikeType) {
   // Update costs and details based on selected bike type
   updateBikeCosts(bikeType);
   recommendationDetails.value = {...bikeTypeDetails[bikeType]};
-  
+
   // Update URL with the new bike selection
   updateUrlWithRecommendation(bikeType);
 }
 
 // Function to update URL with bike recommendation
 function updateUrlWithRecommendation(bikeType) {
-  router.replace({ 
-    query: { 
+  router.replace({
+    query: {
       ...route.query,
-      bike: bikeType 
+      bike: bikeType
     }
   });
 }
@@ -332,8 +341,8 @@ function restartAssessment() {
   recommendation.value = '';
 
   // Remove bike query parameter
-  router.replace({ 
-    query: {} 
+  router.replace({
+    query: {}
   });
 }
 
@@ -342,10 +351,10 @@ onMounted(() => {
   if (route.query.bike && Object.keys(bikeTypeDetails).includes(route.query.bike)) {
     // Set to the last step (results)
     currentStep.value = 4;
-    
+
     // Set recommendation from URL
     recommendation.value = route.query.bike;
-    
+
     // Update the UI
     setRecommendationDetails();
     updateBikeCosts(recommendation.value);

@@ -1,5 +1,5 @@
 {
-  "name": "ebike-calculator",
+  "name": "the-right-bike",
   "version": "1.0.0",
   "description": "A tool to help evaluate if a bike could replace some car trips and save money",
   "main": "index.js",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vkoves/ebike-calculator.git"
+    "url": "git+https://github.com/vkoves/the-right-bike.git"
   },
   "keywords": [
     "bike",
@@ -20,9 +20,9 @@
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/vkoves/ebike-calculator/issues"
+    "url": "https://github.com/vkoves/the-right-bike/issues"
   },
-  "homepage": "https://github.com/vkoves/ebike-calculator#readme",
+  "homepage": "https://github.com/vkoves/the-right-bike#readme",
   "dependencies": {
     "@vitejs/plugin-vue": "^5.2.3",
     "vite": "^6.2.5",
